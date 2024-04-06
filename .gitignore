@@ -1,0 +1,42 @@
+# React && Vite && JavaScript
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+coverage/
+build/
+dist/
+.DS_Store
+
+# Python && Flask
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+*.sqlite3
+*.sqlite
+instance/
+.db
+.venv/
+virt_env/
+ENV/
+
+# Vite specific
+.vite/
+.vitest/
+
+# General
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.seed
+*.swp
+*.swo
+*.swn
