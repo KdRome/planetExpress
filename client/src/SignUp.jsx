@@ -8,6 +8,7 @@ function SignUp() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
+  const [notif, setNotif] = useState('');
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -29,6 +30,7 @@ function SignUp() {
       });
 
       console.log("Account creation successful", response.data);
+      setNotif("Account creation successful, Please Login.");
       //redirect the user here or next steps
     } catch (err) {
       setError("Account creation failed. Please try again.");
@@ -83,6 +85,7 @@ function SignUp() {
           </div>
           <button className="button" type="submit">Sign Up</button>
         </form>
+        {notif && <p className="notifMessage">{notif}</p>}
         {error && <p className="errorMessage">{error}</p>}
       </div>
     </div>

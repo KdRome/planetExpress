@@ -67,6 +67,9 @@
     background-color: #0b5ed7;
 }
   
+.notifMessage {
+    color: green;
+}
 .errorMessage {
     color: red;
 }
