@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './LogIn.css'
 
 function LogIn( {setIsAuthenticated} ) {
   const [email, setEmail] = useState('');
@@ -32,31 +33,35 @@ function LogIn( {setIsAuthenticated} ) {
   };
 
   return (
-    <div>
-      <h2>Log In</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-            <label>Password:</label>
+    <div className="container">
+      <div className="formWrapper">
+        <h2>Log In</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="formGroup">
+            <label className="label">Email:</label>
             <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className="input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+          </div>
+          <div className="formGroup">
+            <label>Password:</label>
+              <input
+                className="input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+          </div>
+          <button className="button" type="submit">Log In</button>
+        </form>
+        {error && <p className="errorMessage">{error}</p>}
       </div>
+    </div>
   );
 }
 

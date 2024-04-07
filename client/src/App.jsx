@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import './App.css'
 import LogIn from './LogIn.jsx'
 import SignUp from './SignUp.jsx'
