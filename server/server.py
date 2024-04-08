@@ -57,7 +57,7 @@ def get_user_info():
 @app.route("/api/create_user", methods=["POST"])
 def create_new_user():
     data = request.get_json()
-    email = data.get("email")
+    email = data.get("email").lower()
     plain_password = data.get("password")
     first_name = data.get("first_name")
     last_name = data.get("last_name")
