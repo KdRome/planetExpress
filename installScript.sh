@@ -10,7 +10,7 @@ fi
 # Check for pip
 if ! command -v pip &> /dev/null
 then
-  echo "pip could not be found, installing Python and pip."
+  echo "pip could not be found, installing Python3 and pip."
   sudo apt-get install python3 -y
 fi 
 
@@ -21,9 +21,6 @@ echo "Installing npm packages..."
 npm install axios dotenv react react-dom react-router-dom
 
 cd ..
-
-# Installing flask-bcrypt
-echo "Installing "
 
 # Python virt_env
 echo "Activating virtual environment..."
