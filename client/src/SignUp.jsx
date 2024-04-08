@@ -33,8 +33,14 @@ function SignUp() {
       setNotif("Account creation successful, Please Login.");
       //redirect the user here or next steps
     } catch (err) {
-      setError("Account creation failed. Please try again.");
-      console.error(err);
+      if (err.response && err.response.status == 409){
+        //alert('Email already exists. Please use a different email.');
+        setError("Email already exists. Please try again.")
+      }
+      else {
+        setError("Account creation failed. Please try again.");
+        console.error(err);
+      }
     }
   };
   
