@@ -1,9 +1,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import DateTime
 from flask_bcrypt import Bcrypt
+from flask_mail import Mail, Message
 from dotenv import load_dotenv
 import os
+from datetime import datetime
+import secrets
 
 load_dotenv()  # loads the .env file
 
@@ -14,8 +18,17 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# Flask Mail config
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USE_SSL"] = True
+
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+mail = Mail(app)
 
 
 class User_Info(database.Model):
@@ -25,6 +38,11 @@ class User_Info(database.Model):
     first_name = database.Column(database.String(255), nullable=False)
     last_name = database.Column(database.String(255), nullable=False)
 
+class VerificationCode(database.Model):
+    user_id = database.Column(database.Integer, primary_key=True)
+    email = database.Column(database.String(255), unique=True, nullable=False)
+    code = database.Column(database.String(255), nullable=False)
+    created_at = database.Column(DateTime, nullable=False)
 
 with app.app_context():
     database.create_all()
@@ -65,12 +83,12 @@ def create_new_user():
     if not (email and plain_password and first_name and last_name):
         return jsonify({"message": "Missing Data."}), 400
 
-    # Hasing the password
-    password_hash = bcrypt.generate_password_hash(plain_password).decode("utf-8")
-
     # Checking if user already exists
     if User_Info.query.filter_by(email=email).first():
         return jsonify({"message": "Email already exists."}), 409
+    
+    # Hasing the password
+    password_hash = bcrypt.generate_password_hash(plain_password).decode("utf-8")
 
     new_user = User_Info(
         email=email,
@@ -92,6 +110,86 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
+
+
+
+# Password Reset Process
+@app.route("/api/sendCode", methods=["GET", "POST"])
+def sendCode():
+    data = request.get_json()
+    user = User_Info.query.filter_by(email=data.get("email")).first()
+
+    try:
+        if user and request.method == "POST":
+            # Generate a verification code
+            verification_code = secrets.token_urlsafe()
+
+            # Send the code to the users email
+            email = data.get("email").lower()
+
+            msg = Message(
+                "Confirm Email",
+                sender="No-Reply@PlanetExpress.shop",
+                recipients=[email])
+
+            # link = url_for('confirm_email', token=verification_code, _external=True)
+            msg.body = "Your verification code: " + verification_code
+
+            # Send the email
+            mail.send(msg)
+            
+            # Add the token to the db
+            new_code = VerificationCode(email=email, code=verification_code, created_at=datetime.now())
+            database.session.add(new_code)
+            database.session.commit()
+
+            return jsonify({"message": "Code has been sent to the email."}), 200
+        else:
+            return jsonify({"message": "Invalid email, Please try again."}), 400
+    except Exception as e:
+        print(f"Error sending email: {e}")
+
+        return jsonify({"error": "Failed to send email", "details": str(e)}), 500
+
+@app.route("/api/forgotPassword", methods=["GET", "POST"])
+def forgotPassword():
+    codeExpirationSeconds = 3900
+    data = request.get_json()
+    email = data.get('email')
+    plain_password = data.get("password")
+    code = data.get("code")
+
+    # Validate the auth code
+    user = User_Info.query.filter_by(email=data.get("email")).first()
+    verification_code = VerificationCode.query.filter_by(email=email, code=code).first()
+
+    # if not user
+    if not user or not verification_code:
+        return jsonify({"message": "Invalid code"}), 400
+
+    # if code expired
+    if (datetime.now() - verification_code.created_at).total_seconds() > codeExpirationSeconds:
+        return jsonify({"message": "Code has expired"}), 401
+
+    try:
+        if verification_code.code == code:
+            # handle the password reset
+            new_password_hash = bcrypt.generate_password_hash(plain_password).decode("utf-8")
+            user.password_hash = new_password_hash
+            database.session.commit()
+
+            # delete the record from db
+            database.session.delete(verification_code)
+            database.session.commit()
+
+            return jsonify({"message": "Password successfully updated"}), 200
+        else:
+            # handle invalid or expired code
+            return jsonify({"message": "Invalid Code."}), 402
+
+    except Exception as e:
+        print(f"Error verifying: {e}")
+        return jsonify({"error": "Failed to verify", "details": str(e)}), 500
 
 
 if __name__ == "__main__":

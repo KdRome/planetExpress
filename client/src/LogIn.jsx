@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './LogIn.css'
+import './SendCode.jsx'
 
 function LogIn( {setIsAuthenticated} ) {
   const [email, setEmail] = useState('');
@@ -11,6 +12,12 @@ function LogIn( {setIsAuthenticated} ) {
   let navigate = useNavigate();
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  const handleForgottenPassword = () => {
+  
+    console.log("Forgot password button clicked");
+    //navigate("/ForgotPassword");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +65,9 @@ function LogIn( {setIsAuthenticated} ) {
               />
           </div>
           <button className="button" type="submit">Log In</button>
+          <div className="forgotPassword">
+            <Link to="/SendCode" onClick={handleForgottenPassword}>Forgot Password?</Link>
+          </div>
         </form>
         {error && <p className="errorMessage">{error}</p>}
       </div>
