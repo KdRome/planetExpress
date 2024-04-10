@@ -5,6 +5,7 @@ import './LogIn.css'
 function ForgotPassword({setIsAuthenticated}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
 
@@ -12,6 +13,10 @@ function ForgotPassword({setIsAuthenticated}) {
 
     const handleForgotPassword = async (e) => {
         e.preventDefault();
+        
+        if(password !== password2){
+          setError("The passwords do not match. Please try again.");
+        }
 
         try {
             const response = await axios.post(`${apiUrl}forgotPassword`, {
@@ -33,6 +38,16 @@ function ForgotPassword({setIsAuthenticated}) {
         <div className="formWrapper">
           <h2>Password Reset</h2>
           <form onSubmit={handleForgotPassword}>
+          <div className="formGroup">
+              <label>Email:</label>
+                <input
+                  className="input"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+            </div>
             <div className="formGroup">
               <label>Code:</label>
                 <input
@@ -47,9 +62,9 @@ function ForgotPassword({setIsAuthenticated}) {
               <label>New Password:</label>
                 <input
                   className="input"
-                  type="auth_code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
             </div>
@@ -57,9 +72,9 @@ function ForgotPassword({setIsAuthenticated}) {
               <label>Re-Enter New Password:</label>
                 <input
                   className="input"
-                  type="auth_code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  type="password"
+                  value={password2}
+                  onChange={(e) => setPassword2(e.target.value)}
                   required
                 />
             </div>
