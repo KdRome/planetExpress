@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './LogIn.css'
 import './ForgotPassword.jsx'
 
-function SendCode({ setIsAuthenticated }) {
+function SendCode() {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [notif, setNotif] = useState('');
@@ -26,7 +26,10 @@ function SendCode({ setIsAuthenticated }) {
             setNotif("If your email is registered, you will receive a reset code.");
             navigate("/ForgotPassword");
         } catch (err) {
-            setError("If your email is registered, you will receive a reset code.");
+            if (err.response && err.response.status == 400){
+                //alert('Email already exists. Please use a different email.');
+                setNotif("If your email is registered, you will receive a reset code.");
+              }
             console.error(err);
         }
     }
@@ -50,7 +53,7 @@ function SendCode({ setIsAuthenticated }) {
                         <Link to="/ForgotPassword" type="submit" onClick={handleSubmit}>Send Code</Link>
                     </div>
                 </form>
-                
+                {notif && <p className="notifMessage">{notif}</p>}
             </div>
         </div>
     );

@@ -35,7 +35,7 @@ function SignUp() {
     } catch (err) {
       if (err.response && err.response.status == 409){
         //alert('Email already exists. Please use a different email.');
-        setError("Email already exists. Please try again.")
+        setError("Email already exists. Please try again.");
       }
       else {
         setError("Account creation failed. Please try again.");
