@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
 import './LogIn.css'
 
 function ForgotPassword({setIsAuthenticated}) {
@@ -35,16 +34,6 @@ function ForgotPassword({setIsAuthenticated}) {
           <h2>Password Reset</h2>
           <form onSubmit={handleForgotPassword}>
             <div className="formGroup">
-              <label className="label">Email:</label>
-              <input
-                className="input"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="formGroup">
               <label>Code:</label>
                 <input
                   className="input"
@@ -54,7 +43,27 @@ function ForgotPassword({setIsAuthenticated}) {
                   required
                 />
             </div>
-            <button className="button" type="submit">Reset Password</button>
+            <div className="formGroup">
+              <label>New Password:</label>
+                <input
+                  className="input"
+                  type="auth_code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  required
+                />
+            </div>
+            <div className="formGroup">
+              <label>Re-Enter New Password:</label>
+                <input
+                  className="input"
+                  type="auth_code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  required
+                />
+            </div>
+            <button className="button" type="submit" onClick={handleForgotPassword}>Reset Password</button>
           </form>
           {error && <p className="errorMessage">{error}</p>}
         </div>
