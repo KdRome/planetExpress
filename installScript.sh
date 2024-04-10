@@ -35,11 +35,12 @@ pip install flask flask-bcrypt flask-cors flask-sqlalchemy psycopg2-binary pytho
 echo "Deactivating virtual environment..."
 deactivate
 
-txtgrn='\e[0;32m'
-echo -e "${txtgrn}Installation complete."
+txtgreen='\e[0;32m'
+echo -e "${txtgreen}Installation complete."
 
 txtred='\e[0;31m'
 echo -e "${txtred}To Run the FRONTEND:"     
 
-echo -e "${txtgrn}cd client/
-npm run dev"
+txtreset='\e[0m'
+echo -e "${txtgreen}cd client/
+npm run dev${txtreset}"
