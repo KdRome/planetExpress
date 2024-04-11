@@ -38,7 +38,17 @@ class User_Info(database.Model):
     first_name = database.Column(database.String(255), nullable=False)
     last_name = database.Column(database.String(255), nullable=False)
 
-# class Products 
+class Product(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    title = database.Column(database.String(255), nullable=False)
+    category = database.Column(database.String(5), nullable=False)
+    description = database.Column(database.String(255), nullable=False)
+    image = database.Column(database.String(255), nullable=False)
+    price = database.Column(database.Numeric(5, 2), nullable=False)
+    rating = database.Column(database.Integer, nullable=False)
+    color = database.Column(database.String(6), nullable=False)
+    discounted_price = database.Column(database.Numeric(5, 2))
+    uri = database.Column(database.String(255), nullable=False)
 
 class VerificationCode(database.Model):
     user_id = database.Column(database.Integer, primary_key=True)

@@ -4,8 +4,8 @@ import './App.css'
 import LogIn from './components/LoginPage/LogIn.jsx'
 import SignUp from './components/LoginPage/SignUp.jsx'
 import ExamplePage from './components/example-App.jsx'
-import ForgotPassword from './ForgotPassword.jsx'
-import SendCode from './SendCode.jsx'
+import ForgotPassword from './components/LoginPage/ForgotPassword.jsx'
+import SendCode from './components/LoginPage/SendCode.jsx'
 
 
 function App() {
