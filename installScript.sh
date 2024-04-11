@@ -4,6 +4,7 @@
 if ! command -v npm &> /dev/null
 then
   echo "npm could not be found, installing Node.js and npm"
+  sudo apt-get install npm -y
   sudo apt-get install nodejs -y
 fi
 
@@ -12,6 +13,7 @@ if ! command -v pip &> /dev/null
 then
   echo "pip could not be found, installing Python3 and pip."
   sudo apt-get install python3 -y
+  sudo apt-get install python3.11-venv -y
 fi 
 
 cd client
@@ -30,7 +32,7 @@ source virt_env/bin/activate
 
 # Install pip packages
 echo "Installing pip packages..."
-pip install flask flask-bcrypt flask-cors flask-sqlalchemy psycopg2-binary python-dotenv flask-mail
+pip install -r "/path/to/requirements.txt" # Make sure to change this before running
 
 echo "Deactivating virtual environment..."
 deactivate
