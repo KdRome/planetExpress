@@ -46,7 +46,7 @@ class Product(database.Model):
     image = database.Column(database.String(255), nullable=False)
     price = database.Column(database.Numeric(5, 2), nullable=False)
     rating = database.Column(database.Integer, nullable=False)
-    color = database.Column(database.String(6), nullable=False)
+    color = database.Column(database.String(6), nullable=True)
     discounted_price = database.Column(database.Numeric(5, 2))
     uri = database.Column(database.String(255), nullable=False)
 
