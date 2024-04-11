@@ -131,13 +131,17 @@ def sendCode():
                 "Confirm Email",
                 sender="No-Reply@PlanetExpress.shop",
                 recipients=[email])
-
             # link = url_for('confirm_email', token=verification_code, _external=True)
             msg.body = "Your verification code: " + verification_code
-
             # Send the email
             mail.send(msg)
             
+            # Delete any existing codes for the email
+            existing_code = VerificationCode.query.filter_by(email=email).all()
+            for code in existing_code:
+                database.session.delete(code)
+            database.session.commit()
+
             # Add the token to the db
             new_code = VerificationCode(email=email, code=verification_code, created_at=datetime.now())
             database.session.add(new_code)
@@ -153,7 +157,7 @@ def sendCode():
 
 @app.route("/api/forgotPassword", methods=["GET", "POST"])
 def forgotPassword():
-    codeExpirationSeconds = 3900
+    codeExpirationSeconds = 1800 # 30 min = 1800 sec
     data = request.get_json()
     email = data.get('email')
     plain_password = data.get("password")
@@ -169,7 +173,12 @@ def forgotPassword():
 
     # if code expired
     if (datetime.now() - verification_code.created_at).total_seconds() > codeExpirationSeconds:
+        database.session.delete(verification_code)
+        database.session.commit()
         return jsonify({"message": "Code has expired"}), 401
+    
+    # Delete any existing codes for the email
+    
 
     try:
         if verification_code.code == code:
