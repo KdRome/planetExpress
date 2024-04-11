@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './LogIn.css'
-import './SendCode.jsx'
+import '../../SendCode.jsx'
 
 function LogIn( {setIsAuthenticated} ) {
   const [email, setEmail] = useState('');

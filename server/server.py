@@ -38,6 +38,8 @@ class User_Info(database.Model):
     first_name = database.Column(database.String(255), nullable=False)
     last_name = database.Column(database.String(255), nullable=False)
 
+# class Products 
+
 class VerificationCode(database.Model):
     user_id = database.Column(database.Integer, primary_key=True)
     email = database.Column(database.String(255), unique=True, nullable=False)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './LogIn.css'
+import './components/LoginPage/LogIn.css'
 
 function ForgotPassword({setIsAuthenticated}) {
     const [email, setEmail] = useState('');

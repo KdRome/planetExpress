@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import './App.css'
-import LogIn from './LogIn.jsx'
-import SignUp from './SignUp.jsx'
-import ExamplePage from './example-App.jsx'
+import LogIn from './components/LoginPage/LogIn.jsx'
+import SignUp from './components/LoginPage/SignUp.jsx'
+import ExamplePage from './components/example-App.jsx'
 import ForgotPassword from './ForgotPassword.jsx'
 import SendCode from './SendCode.jsx'
 
