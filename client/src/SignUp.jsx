@@ -17,8 +17,6 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setShowVerificationInput(true);
-
     // Simple front-end validation
     if(!email || !password || !firstName || !lastName) {
       setError("Please fill in all fields.");
@@ -35,6 +33,9 @@ function SignUp() {
 
       console.log("Account creation successful", response.data);
       setNotif("Please input the code from your email");
+      setShowVerificationInput(true);
+      
+      await axios.post(`${apiUrl}sendCode`, { email });
       //redirect the user here or next steps
     } catch (err) {
       if (err.response && err.response.status == 409){
@@ -49,7 +50,7 @@ function SignUp() {
   };
 
   const handleEmailVerification = async (e) => {
-    e.preventDefault;
+    e.preventDefault();
 
     if(!code){
       setError("Please input the code from email");
@@ -71,7 +72,7 @@ function SignUp() {
     <div className="container">
       <div className="formWrapper">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={showVerificationInput ? handleEmailVerification : handleSubmit}>
           <div className="formGroup">
             <label>Email:</label>
             <input
@@ -112,20 +113,22 @@ function SignUp() {
               required
             />
           </div>
-          {!showVerificationInput ? (
-            <button className="button" type="submit">Sign Up</button>
-          ) : (
-            <><div className="formGroup">
+          {showVerificationInput ? (
+            <>
+              <div className="formGroup">
                 <label>Code:</label>
                 <input
                   className="input"
                   type="text"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  required />
+                  required 
+                />
               </div>
-              <button className="button" onClick={handleEmailVerification}>Verify Code</button>
+              <button className="button">Verify Code</button>
             </>
+          ) : (
+            <button className="button">Sign Up</button>
           )}
         </form>
         {notif && <p className="notifMessage">{notif}</p>}
