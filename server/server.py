@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from extensions import database, bcrypt, mail
-from config import Config
-import emailRoutes, userRoutes
+from server.extensions.extensions import database, bcrypt, mail
+from server.config.config import Config
+import server.routes.emailRoutes as emailRoutes, server.routes.userRoutes as userRoutes
 import os
 
 def run_app():

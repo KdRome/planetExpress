@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from databaseModels import User_Info, VerificationCode
+from server.models.databaseModels import User_Info, VerificationCode
 from server import mail
-from extensions import database, bcrypt
+from server.extensions.extensions import database, bcrypt
 from flask_mail import Message
 from datetime import datetime
 import secrets
