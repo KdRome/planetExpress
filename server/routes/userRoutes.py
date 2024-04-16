@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
-from server.models.databaseModels import User_Info
+from models.databaseModels import User_Info
 from server import bcrypt
-from server.extensions.extensions import database
+from extensions.extensions import database
 
 def getDatabase():
     from server import database

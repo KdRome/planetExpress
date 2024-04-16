@@ -1,4 +1,4 @@
-from server.extensions.extensions import database
+from extensions.extensions import database
 from sqlalchemy import DateTime
 
 class User_Info(database.Model):
