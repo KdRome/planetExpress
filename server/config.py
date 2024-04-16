@@ -1,16 +1,16 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv() # loads the .env file
 
 class Config:
     # Database Link
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     # Flask Mail config
-    app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
-    app.config["MAIL_PORT"] = os.getenv("MAIL_PORT")
-    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
-    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
-    app.config["MAIL_USE_TLS"] = False
-    app.config["MAIL_USE_SSL"] = True
+    MAIL_SERVER = os.getenv("MAIL_SERVER")
+    MAIL_PORT = os.getenv("MAIL_PORT")
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
