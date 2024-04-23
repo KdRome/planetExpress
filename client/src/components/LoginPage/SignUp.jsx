@@ -7,6 +7,8 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [showVerificationInput, setShowVerificationInput] = useState(false);
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [notif, setNotif] = useState('');
 
@@ -20,7 +22,7 @@ function SignUp() {
       setError("Please fill in all fields.");
       return;
     }
-
+    
     try {
       const response = await axios.post(`${apiUrl}create_user`, {
         email,
@@ -30,7 +32,10 @@ function SignUp() {
       });
 
       console.log("Account creation successful", response.data);
-      setNotif("Account creation successful, Please Login.");
+      setNotif("Please input the code from your email");
+      setShowVerificationInput(true);
+      
+      await axios.post(`${apiUrl}sendCode`, { email });
       //redirect the user here or next steps
     } catch (err) {
       if (err.response && err.response.status == 409){
@@ -43,12 +48,31 @@ function SignUp() {
       }
     }
   };
+
+  const handleEmailVerification = async (e) => {
+    e.preventDefault();
+
+    if(!code){
+      setError("Please input the code from email");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${apiUrl}emailVerification`, {
+        email,
+        code
+      });
+    } catch (err) {
+      setError("Code verificaiton failed. Please try again");
+      console.error(err);
+    }
+  };
   
   return (
     <div className="container">
       <div className="formWrapper">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={showVerificationInput ? handleEmailVerification : handleSubmit}>
           <div className="formGroup">
             <label>Email:</label>
             <input
@@ -89,7 +113,23 @@ function SignUp() {
               required
             />
           </div>
-          <button className="button" type="submit">Sign Up</button>
+          {showVerificationInput ? (
+            <>
+              <div className="formGroup">
+                <label>Code:</label>
+                <input
+                  className="input"
+                  type="text"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  required 
+                />
+              </div>
+              <button className="button">Verify Code</button>
+            </>
+          ) : (
+            <button className="button">Sign Up</button>
+          )}
         </form>
         {notif && <p className="notifMessage">{notif}</p>}
         {error && <p className="errorMessage">{error}</p>}
