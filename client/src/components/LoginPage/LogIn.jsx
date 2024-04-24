@@ -19,25 +19,25 @@ function LogIn( {setIsAuthenticated} ) {
     //navigate("/ForgotPassword");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // In LogIn.jsx
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post(`${apiUrl}login`, {
-        email,
-        password
-    });
+  try {
+    const response = await axios.post(`${apiUrl}login`, {
+      email,
+      password
+  });
 
-      //handle the response
-      console.log("Authentication Successful", response.data);
-      setIsAuthenticated(true);
-      navigate("/example-App");
-      // Redirect the user or save the Authentication token here
-    } catch (err) {
-      setError("Authentication failed. Please check your credentials.");
-      console.error(err);
-    }
-  };
+    console.log("Authentication Successful", response.data);
+    setIsAuthenticated(true);
+    navigate("/main-page");  // Updated to /main-page
+  } catch (err) {
+    setError("Authentication failed. Please check your credentials.");
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="container">

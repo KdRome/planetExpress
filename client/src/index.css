@@ -1,68 +1,120 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Fonts */
+@font-face {
+    font-family: "harmonia_sans_bold";
+    src: url("./fonts/harmonia_sans_bold.woff2");
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@font-face {
+    font-family: "harmonia_sans_normal";
+    src: url("./fonts/harmonia_sans_normal.woff2");
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* Background colors */
+
+.light-gray-bg-custom {
+    background: rgb(245 246 247);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.washed-gray-bg {
+    background: rgb(53 53 53);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Announcement bar */
+
+#root {
+    min-width: 273px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Product grid */
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 18px;
+    row-gap: 18px;
+    list-style: none;
+    padding: 0;
+}
+
+.product-item {
+    max-width: calc(25% - 14px);
+    padding: 20px;
+    background: #f5f6f7;
+}
+
+/* Media queries for product grid */
+
+@media screen and (max-width: 1140px) {
+    .product-item {
+        max-width: calc(33.5% - 14px);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .product-item {
+        max-width: calc(50.77% - 14px);
+    }
+}
+
+@media screen and (max-width: 491px) {
+    .product-list {
+        column-gap: 0px;
+    }
+
+    .product-item {
+        max-width: 100%;
+    }
+}
+
+.product-item img {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+/* Overrides LazyLoadImage NPM package default behaviour */
+
+.lazy-load-image-background.blur.lazy-load-image-loaded {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/* Override toast colors */
+.Toastify__toast {
+    position: relative;
+    top: 16px;
+}
+
+.Toastify__progress-bar--success {
+    background: #079669;
+}
+.Toastify__toast-icon svg {
+    fill: #079669;
+}
+
+.Toastify__toast-theme--light {
+    color: #5a5454;
+    font-weight: 400;
+}
+
+/* Cart */
+
+input[type="number"]::-webkit-inner-spin-button {
+    opacity: 1;
+}
+
+/* Product page */
+
+.product-image {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0px;
+    max-width: 451px;
 }
