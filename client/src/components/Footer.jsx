@@ -1,4 +1,6 @@
 function Footer() {
+    let date = new Date();
+    let year = date.getFullYear();
     return (
         <footer className="light-gray-bg-custom dark:bg-zinc-800 mt-2.5">
             <div className="mx-auto max-w-screen-2xl p-9 py-6 lg:py-8">
@@ -97,7 +99,7 @@ function Footer() {
 
                 <div className="sm:flex sm:justify-between text-center sm:text-left">
                     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                        © 2023 Bella Fashion. All Rights Reserved.
+                        © {year} Planet Express. All Rights Reserved.
                     </span>
                 </div>
             </div>
