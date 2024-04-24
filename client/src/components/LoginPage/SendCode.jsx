@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './components/LoginPage/LogIn.css'
+import './LogIn.css'
 import './ForgotPassword.jsx'
 
 function SendCode() {
