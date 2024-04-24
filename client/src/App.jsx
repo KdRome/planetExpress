@@ -9,6 +9,7 @@ import ProductGrid from "./components/product-grid/ProductGrid";
 import Footer from "./components/Footer";
 import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
+import Login from "./components/LoginPage/LogIn";
 
 export const Context = createContext();
 
@@ -23,6 +24,12 @@ function App() {
 
             <Router>
                 <Routes>
+                    <Route path="/account" element={<Login />}>
+                        something
+                    </Route>
+
+
+
                     <Route path="/cart" element={<Cart />}></Route>
                     <Route
                         path="/"
