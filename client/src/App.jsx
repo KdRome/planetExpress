@@ -55,7 +55,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/shoes"
+                        path="/cpu"
                         element={
                             <>
                                 <CategoryDescription
@@ -67,7 +67,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/bags"
+                        path="/gpu"
                         element={
                             <>
                                 <CategoryDescription
@@ -79,7 +79,19 @@ function App() {
                         }
                     />
                     <Route
-                        path="/hats"
+                        path="/ram"
+                        element={
+                            <>
+                                <CategoryDescription
+                                    title="Hats"
+                                    desc="Our remarkable assortment of hats, where artistry meets functionality. Handpicked materials are thoughtfully sourced, and each hat is crafted to bring you a stunning and versatile accessory. Designed to elevate your style and offer comfort."
+                                />
+                                <ProductGrid category="hats" />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/motherboard"
                         element={
                             <>
                                 <CategoryDescription
