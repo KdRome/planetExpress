@@ -11,11 +11,24 @@ import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
 import Login from "./components/LoginPage/LogIn";
 
+// NavBar Icons
+import { HiOutlineCpuChip } from "react-icons/hi2";
+import {
+    BsGpuCard,
+    BsMotherboard,
+} from "react-icons/bs";
+import { RiRam2Line } from "react-icons/ri";  
+
 export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
-    const navigationItems = ["Shoes", "Bags", "Hats"];
+    const navigationItems = [
+        { name: "CPU", icon: HiOutlineCpuChip },
+        { name: "GPU", icon: BsGpuCard },
+        { name: "RAM", icon: RiRam2Line },
+        { name: "Motherboard", icon: BsMotherboard },
+    ];
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
@@ -42,7 +55,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/shoes"
+                        path="/cpu"
                         element={
                             <>
                                 <CategoryDescription
@@ -54,7 +67,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/bags"
+                        path="/gpu"
                         element={
                             <>
                                 <CategoryDescription
@@ -66,7 +79,19 @@ function App() {
                         }
                     />
                     <Route
-                        path="/hats"
+                        path="/ram"
+                        element={
+                            <>
+                                <CategoryDescription
+                                    title="Hats"
+                                    desc="Our remarkable assortment of hats, where artistry meets functionality. Handpicked materials are thoughtfully sourced, and each hat is crafted to bring you a stunning and versatile accessory. Designed to elevate your style and offer comfort."
+                                />
+                                <ProductGrid category="hats" />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/motherboard"
                         element={
                             <>
                                 <CategoryDescription
