@@ -1,8 +1,15 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../App.jsx";
-
+import planetExpressLogo from '../assets/planet_express_logo.png'
 import { BrowserRouter, NavLink } from "react-router-dom";
 import { useEffect } from "react";
+
+//Icon imports
+import { CiSearch } from "react-icons/ci";
+import { 
+    MdAccountCircle,
+    MdOutlineShoppingCart,
+} from "react-icons/md";
 
 function App({ navigationItems }) {
     // Sets state for mobile hamburger menu
@@ -29,11 +36,14 @@ function App({ navigationItems }) {
                 <div className="">
                     <a href="/">
                         <img
-                            src="/logo-min.png"
-                            className="w-100 h-10 mr-2"
+                            src={planetExpressLogo}
+                            className="w-16 h-16 mr-2"
                             alt="Logo"
                             width={145}
-                            height={40}
+                            height={145}
+                            onError={(e) => {
+                                e.target.src = '../assets/planet_express_logo.png'
+                            }}
                         />
                     </a>
                 </div>
@@ -88,8 +98,8 @@ function App({ navigationItems }) {
                             {navigationItems.map((item) => (
                                 <NavLink
                                     reloadDocument
-                                    key={item}
-                                    to={item.toLowerCase()}
+                                    key={item.name}
+                                    to={item.name.toLowerCase()}
                                     className={({ isActive, isPending }) =>
                                         isPending
                                             ? "pending"
@@ -97,8 +107,11 @@ function App({ navigationItems }) {
                                             ? "mb-4 lg:mb-0 lg:mx-3 lg:border-b lg:border-gray-700 lg:pb-1.5 relative top-1"
                                             : "mb-4 lg:mb-0 lg:mx-3"
                                     }
-                                >
-                                    {item}
+                                >   
+                                    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Makes sure tha icon and text are inline */}
+                                        <item.icon style={{ marginRight: '0.5rem' }} />
+                                        {item.name}
+                                    </div>
                                 </NavLink>
                             ))}
 
@@ -125,41 +138,21 @@ function App({ navigationItems }) {
                         href="#"
                         className="px-4 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-110 duration-300"
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M18 9.5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Zm-1.736 6.024a8 8 0 1 1 .71-.704l4.62 4.62a.5.5 0 1 1-.707.706l-4.623-4.622Z"
-                            ></path>
-                        </svg>
+                        <CiSearch style={{width: '25px', height: '25px'}} />
                     </a>
 
                     <a
                         href="/account"
                         className="px-4 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-110 duration-300"
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M16 5.5a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm1 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0Zm-12.5 14c0-2.143.486-3.732 1.596-4.796C7.212 13.634 9.058 13 12 13c2.942 0 4.788.635 5.904 1.704 1.11 1.064 1.596 2.652 1.596 4.796a.5.5 0 0 0 1 0c0-2.275-.514-4.186-1.904-5.518C17.212 12.656 15.058 12 12 12c-3.058 0-5.212.656-6.596 1.982C4.014 15.314 3.5 17.225 3.5 19.5a.5.5 0 0 0 1 0Z"
-                            ></path>
-                        </svg>
+                        <MdAccountCircle style={{width: '25px', height: '25px'}} />
                     </a>
 
                     <a
                         href="/cart"
                         className="px-4 transition ease-in-out delay-75 hover:-translate-y-1 hover:scale-110 duration-300"
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <circle cx="16.75" cy="19.949" r=".75"></circle>
-                            <circle cx="9.75" cy="19.949" r=".75"></circle>
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M18 18.2a.5.5 0 0 0 0-1h-7.99a2.5 2.5 0 0 1-2.46-2.06l-.123-.688h9.16a2.5 2.5 0 0 0 2.355-1.66l1.55-4.34a1.5 1.5 0 0 0-1.413-2.004H5.997l-.065-.364A3.5 3.5 0 0 0 2.488 3.2h-.99a.5.5 0 1 0 0 1h.99a2.5 2.5 0 0 1 2.46 2.06l1.617 9.057a3.5 3.5 0 0 0 3.446 2.884H18ZM6.176 7.45l12.903-.001a.5.5 0 0 1 .47.668l-1.548 4.34a1.5 1.5 0 0 1-1.413.996h-9.34L6.176 7.45Z"
-                            ></path>
-                        </svg>
+                        <MdOutlineShoppingCart style={{width: '25px', height: '25px'}} />
                         <div className="absolute">
                             {cartCounter > 0 ? (
                                 <span className="bg-white text-black border text-xs relative bottom-9 left-4 py-0.5 px-1.5 rounded-full">

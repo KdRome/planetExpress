@@ -11,11 +11,24 @@ import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
 import Login from "./components/LoginPage/LogIn";
 
+// NavBar Icons
+import { HiOutlineCpuChip } from "react-icons/hi2";
+import {
+    BsGpuCard,
+    BsMotherboard,
+} from "react-icons/bs";
+import { RiRam2Line } from "react-icons/ri";  
+
 export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
-    const navigationItems = ["Shoes", "Bags", "Hats"];
+    const navigationItems = [
+        { name: "CPU", icon: HiOutlineCpuChip },
+        { name: "GPU", icon: BsGpuCard },
+        { name: "RAM", icon: RiRam2Line },
+        { name: "Motherboard", icon: BsMotherboard },
+    ];
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
