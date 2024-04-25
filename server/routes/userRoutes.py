@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models.databaseModels import User_Info
+from models.databaseModels import User_Info, Product
 from server import bcrypt
 from extensions.extensions import database
 
@@ -68,3 +68,26 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
+    
+@userBP.route("/api/products", methods=["GET"])
+def get_products():
+    all_product_data = Product.query.all()
+    return jsonify(
+        {
+            "products": [
+                {
+                    "id": product.id,
+                    "title": product.title,
+                    "category": product.category,
+                    "description": product.description,
+                    "image": product.image,
+                    "price": product.price,
+                    "rating": product.rating,
+                    "color": product.color,
+                    "discounted_price": product.discounted_price,
+                    "uri": product.uri,
+                }
+                for product in all_product_data
+            ]
+        }
+    )

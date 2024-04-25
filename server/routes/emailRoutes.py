@@ -23,7 +23,7 @@ def sendCode():
 
             msg = Message(
                 "Confirm Email",
-                sender="No-Reply@PlanetExpress.shop",
+                sender="No-Reply@PlanetExpress.store",
                 recipients=[email])
             # link = url_for('confirm_email', token=verification_code, _external=True)
             msg.body = "Your verification code: " + verification_code
