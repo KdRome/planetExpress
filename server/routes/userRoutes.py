@@ -76,15 +76,13 @@ def get_products():
         {
             "products": [
                 {
-                    "id": product.id,
+                    "id": product.product_id,
                     "title": product.title,
                     "category": product.category,
                     "description": product.description,
                     "image": product.image,
                     "price": product.price,
                     "rating": product.rating,
-                    "color": product.color,
-                    "discounted_price": product.discounted_price,
                     "uri": product.uri,
                 }
                 for product in all_product_data

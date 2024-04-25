@@ -16,15 +16,20 @@ class VerificationCode(database.Model):
     created_at = database.Column(DateTime, nullable=False)
 
 class Product(database.Model):
-    __tablename__ = 'product'
+    __tablename__ = 'products'
 
-    id = database.Column(database.Integer, primary_key=True)
+    product_id = database.Column(database.Integer, primary_key=True)
     title = database.Column(database.String(255), nullable=False)
-    category = database.Column(database.String(5), nullable=False)
-    description = database.Column(database.String(255), nullable=False)
+    category = database.Column(database.String(20), nullable=False)
+    description = database.Column(database.Text, nullable=False)
     image = database.Column(database.String(255), nullable=False)
     price = database.Column(database.Numeric(5, 2), nullable=False)
     rating = database.Column(database.Integer, nullable=False)
-    color = database.Column(database.String(6), nullable=False)
-    discounted_price = database.Column(database.Numeric(5, 2))
     uri = database.Column(database.String(255), nullable=False)
+    
+    '''
+    cpu_id = database.Column(database.Integer, database.ForeignKey('cpu.cpu_id'))
+    gpu_id = database.Column(database.Integer, database.ForeignKey('cpu.gpu_id'))
+    ram_id = database.Column(database.Integer, database.ForeignKey('cpu.ram_id'))
+    motherboard_id = database.Column(database.Integer, database.ForeignKey('cpu.motherboard_id'))
+    '''
