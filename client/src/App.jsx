@@ -47,7 +47,9 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    desc="Experience the latest in fashion trends! Explore a curated collection of stylish shoes, trendy bags, and chic hats for a complete and elevated look. Shop now and define your personal style"
+                                    desc="Experience the latest in technology! Explore a curated collection of high speed 
+                                    CPU's, GPU's, RAM and Motherboards for a complete personal computer. 
+                                    Shop now and build your perfect personal computer"
                                     title="Products"
                                 />
                                 <ProductGrid />
@@ -59,8 +61,9 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    title="Shoes"
-                                    desc="Using mostly recycled fibers, we create sustainable shoes that combine comfort with timeless style. Step into our shoes and experience the difference of artisanal craftsmanship and eco-conscious design."
+                                    title="CPU's"
+                                    desc="Using mostly recycled fibers, we create sustainable shoes that combine comfort with timeless style. 
+                                    Step into our shoes and experience the difference of artisanal craftsmanship and eco-conscious design."
                                 />
                                 <ProductGrid category="shoes" />
                             </>
@@ -71,8 +74,10 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    title="Bags"
-                                    desc="Discover artisanal excellence in every bag. Our skilled artisans pour heart and soul into crafting each piece from concept to stitch, using eco-conscious materials for elegance with a greener conscience"
+                                    title="GPU's"
+                                    desc="Discover artisanal excellence in every GPU. 
+                                    Our skilled artisans pour heart and soul into crafting each piece from concept to stitch, 
+                                    using eco-conscious materials for elegance with a greener conscience"
                                 />
                                 <ProductGrid category="bags" />
                             </>
@@ -83,8 +88,10 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    title="Hats"
-                                    desc="Our remarkable assortment of hats, where artistry meets functionality. Handpicked materials are thoughtfully sourced, and each hat is crafted to bring you a stunning and versatile accessory. Designed to elevate your style and offer comfort."
+                                    title="RAM"
+                                    desc="Our remarkable assortment of RAM, where artistry meets functionality. 
+                                    Handpicked materials are thoughtfully sourced, and each RAM is crafted to bring you a stunning and versatile memory. 
+                                    Designed to elevate your workflow."
                                 />
                                 <ProductGrid category="hats" />
                             </>
@@ -95,8 +102,10 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    title="Hats"
-                                    desc="Our remarkable assortment of hats, where artistry meets functionality. Handpicked materials are thoughtfully sourced, and each hat is crafted to bring you a stunning and versatile accessory. Designed to elevate your style and offer comfort."
+                                    title="Motherboards"
+                                    desc="Our remarkable assortment of motherboards, where artistry meets functionality. 
+                                    Handpicked materials are thoughtfully sourced, and each motherboard is crafted to bring you a stunning and versatile board. 
+                                    Designed to elevate your exprience."
                                 />
                                 <ProductGrid category="hats" />
                             </>
