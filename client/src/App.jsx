@@ -19,14 +19,12 @@ function App() {
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
-            <AnnouncementBar title="Free Shipping in Europe" />
+            <AnnouncementBar title="Free Shipping in United States" />
             <Header navigationItems={navigationItems} />
 
             <Router>
                 <Routes>
-                    <Route path="/account" element={<Login />}>
-                        something
-                    </Route>
+                    <Route path="/account" element={<Login />}></Route>
 
 
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import ProductSorting from "./ProductSorting";
 import ProductFiltering from "./ProductFiltering";
@@ -26,14 +27,17 @@ function ProductGrid({ category }) {
         isDataLoaded: false, // Ensures the useEffect hooks renders when fetch is returned
     });
 
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await fetch("/api/products");
-                const data = await response.json();
-
+                const response = await axios.get(`${apiUrl}products`, {
+                    
+                });
+                console.log(response.data.products)
                 setProductData({
-                    products: data,
+                    products: response.data.products,
                     isDataLoaded: true,
                 });
             } catch (error) {
@@ -43,13 +47,16 @@ function ProductGrid({ category }) {
 
         fetchProductData();
     }, []);
-
     useEffect(() => {
         validate();
     }, [sortedProducts, filteredProducts, productData]);
 
     // Only returns the products with the correct category
     const getCategoryProducts = () => {
+        if (!productData.isDataLoaded) {
+            return [];
+        }
+
         if (category) {
             return productData.products.filter(
                 (product) => product.category === category
