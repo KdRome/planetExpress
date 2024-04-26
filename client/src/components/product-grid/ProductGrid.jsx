@@ -21,6 +21,8 @@ function ProductGrid({ category }) {
     const [filteredProducts, setFilteredProducts] = useState({});
     const [pageCount, setPageCount] = useState(INITIAL_PAGE_COUNT);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
     // Holds state of products from GET request
     const [productData, setProductData] = useState({
         products: [],
@@ -105,6 +107,13 @@ function ProductGrid({ category }) {
 
         return products.slice(0, endIndex);
     };
+    
+    const toggleExpand = (productId) => {
+        setIsExpanded((prev) => ({
+            ...prev,
+            [productId]: !prev[productId],
+        }));
+    };
 
     return (
         <>
@@ -162,8 +171,13 @@ function ProductGrid({ category }) {
                                             />
 
                                             <p className="h-fit text-sm my-1">
-                                                {product.description}
+                                                {isExpanded[product.id]
+                                                    ? product.description
+                                                    : `${product.description.slice(0, 100)}...`}
                                             </p>
+                                            <button onClick={() => toggleExpand(product.id)}>
+                                                {isExpanded[product.id] ? 'Read Less' : 'Read More'}
+                                            </button>
 
                                             {product.discounted_price ? (
                                                 <div className="float-left">
