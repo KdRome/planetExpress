@@ -150,7 +150,7 @@ function ProductGrid({ category }) {
                                             className="flex flex-col product-item justify-between"
                                         >
                                             <a
-                                                href={"products/" + product.uri}
+                                                href={"products/" + product.id}
                                                 className="hover:underline flex flex-col"
                                             >
                                                 <LazyLoadImage
@@ -185,10 +185,7 @@ function ProductGrid({ category }) {
                                                         ${product.price}
                                                     </span>
                                                     <span className="text-emerald-600 text-lg">
-                                                        $
-                                                        {
-                                                            product.discounted_price
-                                                        }
+                                                        ${product.discounted_price}
                                                     </span>
                                                 </div>
                                             ) : (
