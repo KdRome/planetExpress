@@ -12,19 +12,15 @@ import ProductPage from "./components/product-page/ProductPage";
 import Login from "./components/LoginPage/LogIn";
 
 // NavBar Icons
-import { HiOutlineCpuChip } from "react-icons/hi2";
-import {
-    BsGpuCard,
-    BsMotherboard,
-} from "react-icons/bs";
-import { RiRam2Line } from "react-icons/ri";  
+import { BsGpuCard, BsMotherboard } from "react-icons/bs";
+import { RiRam2Line, RiCpuLine } from "react-icons/ri";  
 
 export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
     const navigationItems = [
-        { name: "CPU", icon: HiOutlineCpuChip },
+        { name: "CPU", icon: RiCpuLine },
         { name: "GPU", icon: BsGpuCard },
         { name: "RAM", icon: RiRam2Line },
         { name: "Motherboard", icon: BsMotherboard },
@@ -32,16 +28,14 @@ function App() {
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
-            <AnnouncementBar title="Free Shipping in United States" />
+            <AnnouncementBar title="Free Shipping on Earth" />
             <Header navigationItems={navigationItems} />
 
             <Router>
                 <Routes>
-                    <Route path="/account" element={<Login />}></Route>
+                    <Route path="/account" element={<Login />} />
 
-
-
-                    <Route path="/cart" element={<Cart />}></Route>
+                    <Route path="/cart" element={<Cart />} />
                     <Route
                         path="/"
                         element={
@@ -67,7 +61,7 @@ function App() {
                                     Choose from industry-leading brands and unlock the full potential of your custom-built PC. 
                                     Start shopping now to find the perfect CPU for your setup."
                                 />
-                                <ProductGrid category="shoes" />
+                                <ProductGrid category="Processor" />
                             </>
                         }
                     />
@@ -81,7 +75,7 @@ function App() {
                                     Experts carefully craft each unit with precision, from initial design to final assembly, ensuring peak performance and reliability.  
                                     Discover GPUs that deliver exceptional power without compromising on sustainability."
                                 />
-                                <ProductGrid category="bags" />
+                                <ProductGrid category="Graphics Card" />
                             </>
                         }
                     />
@@ -96,7 +90,7 @@ function App() {
                                     Whether you're enhancing productivity or optimizing gaming, our RAM is designed to take your workflow to new heights. 
                                     Discover memory that blends elegance with power."
                                 />
-                                <ProductGrid category="hats" />
+                                <ProductGrid category="RAM" />
                             </>
                         }
                     />
@@ -110,14 +104,13 @@ function App() {
                                     Designed to enhance your computing experience, these motherboards offer a perfect blend of style and functionality. 
                                     Elevate your setup with motherboards that are tailored to meet your needs, whether you're a gamer, a developer, or a general PC enthusiast."
                                 />
-                                <ProductGrid category="hats" />
+                                <ProductGrid category="Motherboard" />
                             </>
                         }
                     />
                     <Route path="/products/:id" element={<ProductPage />} />
                 </Routes>
             </Router>
-
             <Footer />
         </Context.Provider>
     );
