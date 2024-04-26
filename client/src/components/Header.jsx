@@ -108,7 +108,7 @@ function App({ navigationItems }) {
                                             : "mb-4 lg:mb-0 lg:mx-3"
                                     }
                                 >   
-                                    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Makes sure tha icon and text are inline */}
+                                    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Makes sure the icon and text are inline */}
                                         <item.icon style={{ marginRight: '0.5rem' }} />
                                         {item.name}
                                     </div>

@@ -47,9 +47,9 @@ function App() {
                         element={
                             <>
                                 <CategoryDescription
-                                    desc="Experience the latest in technology! Explore a curated collection of high speed 
-                                    CPU's, GPU's, RAM and Motherboards for a complete personal computer. 
-                                    Shop now and build your perfect personal computer"
+                                    desc="Discover the cutting-edge technology that powers modern computing. 
+                                    Browse our carefully selected range of high-speed CPUs, GPUs, RAM, and motherboards to assemble your ideal personal computer. 
+                                    Start shopping now to build the perfect PC with premium components from trusted brands."
                                     title="Products"
                                 />
                                 <ProductGrid />
@@ -62,8 +62,10 @@ function App() {
                             <>
                                 <CategoryDescription
                                     title="CPU's"
-                                    desc="Using mostly recycled fibers, we create sustainable shoes that combine comfort with timeless style. 
-                                    Step into our shoes and experience the difference of artisanal craftsmanship and eco-conscious design."
+                                    desc="Explore our complete collection of CPUs, where performance meets efficiency. 
+                                    We offer a diverse selection of processors to suit every need, from high-speed gaming to intensive multitasking. 
+                                    Choose from industry-leading brands and unlock the full potential of your custom-built PC. 
+                                    Start shopping now to find the perfect CPU for your setup."
                                 />
                                 <ProductGrid category="shoes" />
                             </>
@@ -75,9 +77,9 @@ function App() {
                             <>
                                 <CategoryDescription
                                     title="GPU's"
-                                    desc="Discover artisanal excellence in every GPU. 
-                                    Our skilled artisans pour heart and soul into crafting each piece from concept to stitch, 
-                                    using eco-conscious materials for elegance with a greener conscience"
+                                    desc="Experience the artistry behind every GPU. 
+                                    Experts carefully craft each unit with precision, from initial design to final assembly, ensuring peak performance and reliability.  
+                                    Discover GPUs that deliver exceptional power without compromising on sustainability."
                                 />
                                 <ProductGrid category="bags" />
                             </>
@@ -89,9 +91,10 @@ function App() {
                             <>
                                 <CategoryDescription
                                     title="RAM"
-                                    desc="Our remarkable assortment of RAM, where artistry meets functionality. 
-                                    Handpicked materials are thoughtfully sourced, and each RAM is crafted to bring you a stunning and versatile memory. 
-                                    Designed to elevate your workflow."
+                                    desc="Explore our exceptional selection of RAM, where craftsmanship meets performance. 
+                                    Each module is carefully selected for quality and versatility, using premium materials to deliver reliable memory solutions. 
+                                    Whether you're enhancing productivity or optimizing gaming, our RAM is designed to take your workflow to new heights. 
+                                    Discover memory that blends elegance with power."
                                 />
                                 <ProductGrid category="hats" />
                             </>
@@ -103,9 +106,9 @@ function App() {
                             <>
                                 <CategoryDescription
                                     title="Motherboards"
-                                    desc="Our remarkable assortment of motherboards, where artistry meets functionality. 
-                                    Handpicked materials are thoughtfully sourced, and each motherboard is crafted to bring you a stunning and versatile board. 
-                                    Designed to elevate your exprience."
+                                    desc="Explore our impressive range of motherboards, where quality meets versatility.
+                                    Designed to enhance your computing experience, these motherboards offer a perfect blend of style and functionality. 
+                                    Elevate your setup with motherboards that are tailored to meet your needs, whether you're a gamer, a developer, or a general PC enthusiast."
                                 />
                                 <ProductGrid category="hats" />
                             </>
