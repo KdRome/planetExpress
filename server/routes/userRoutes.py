@@ -89,3 +89,24 @@ def get_products():
             ]
         }
     )
+
+@userBP.route("/api/products/<int:product_id>", methods=["GET"])
+def get_product_details(product_id):
+    product = Product.query.get(product_id)
+    if product:
+        return jsonify(
+            {
+                "product": {
+                        "id": product.product_id,
+                        "title": product.title,
+                        "category": product.category,
+                        "description": product.description,
+                        "image": product.image,
+                        "price": product.price,
+                        "rating": product.rating,
+                        "uri": product.uri,
+                    }
+            }
+        )
+    else:
+        return jsonify({"error": "Product not found"}), 404

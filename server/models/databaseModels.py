@@ -22,7 +22,7 @@ class Product(database.Model):
     title = database.Column(database.String(255), nullable=False)
     category = database.Column(database.String(20), nullable=False)
     description = database.Column(database.Text, nullable=False)
-    image = database.Column(database.String(255), nullable=False)
+    image = database.Column(database.String(350), nullable=False)
     price = database.Column(database.Numeric(5, 2), nullable=False)
     rating = database.Column(database.Integer, nullable=False)
     uri = database.Column(database.String(255), nullable=False)
