@@ -155,13 +155,13 @@ function ProductGrid({ category }) {
                                                 <LazyLoadImage
                                                     effect="blur"
                                                     src={product.image}
-                                                    alt={product.description}
+                                                    alt={product.id}
                                                     width={250}
                                                     height={250}
                                                 />
 
                                                 <span className="text-base">
-                                                    {product.title}
+                                                    {product.title.slice(0,50)}...
                                                 </span>
                                             </a>
 

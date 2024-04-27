@@ -3,20 +3,24 @@ import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import StarRatings from "../product-grid/StarRatings";
+import axios from "axios";
+import AddToCartButton from "./AddToCartButton";
 
 function RelatedProducts({ category }) {
     const [products, setProduct] = useState([]);
 
+    const [isExpanded, setIsExpanded] = useState(false);
+
+
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await fetch(
-                    `/api/products/related/${category}`
-                );
-                const data = await response.json();
+                const response = await axios.get(`${apiUrl}products/related/${category}`);
 
                 setProduct({
-                    products: data,
+                    products: response.data.products,
                     isDataLoaded: true,
                 });
             } catch (error) {
@@ -31,6 +35,13 @@ function RelatedProducts({ category }) {
         console.log(products);
     }, [products]);
 
+    const toggleExpand = (productId) => {
+        setIsExpanded((prev) => ({
+            ...prev,
+            [productId]: !prev[productId],
+        }));
+    };
+
     return (
         <div className="max-w-screen-2xl mx-auto p-9 pt-2">
             <h2 className="text-3xl text-center m-6">You may also like</h2>
@@ -44,27 +55,32 @@ function RelatedProducts({ category }) {
                                 key={product.id}
                             >
                                 <a
-                                    href={product.uri}
+                                    href={product.id}
                                     className="flex
                                  flex-col hover:underline"
                                 >
                                     <LazyLoadImage
                                         effect="blur"
-                                        src={"../" + product.image}
+                                        src={product.image}
                                         alt={product.description}
                                         className="mb-4 w-full"
                                     />
 
                                     <h4 className="text-lg font-medium mb-1">
-                                        {product.title}
+                                        {product.title.slice(0,50)}...
                                     </h4>
                                 </a>
 
                                 <StarRatings rating={product.rating} />
 
-                                <p className="w-4/5 text-sm">
-                                    {product.description}
+                                <p className="h-fit text-sm my-1">
+                                    {isExpanded[product.id]
+                                        ? product.description
+                                        : `${product.description.slice(0, 100)}...`}
                                 </p>
+                            <button onClick={() => toggleExpand(product.id)}>
+                                {isExpanded[product.id] ? 'Read Less' : 'Read More'}
+                            </button>
 
                                 {product.discounted_price ? (
                                     <div className="flex flex-col sm:flex-row float-left pt-3 pb-3">
@@ -81,6 +97,7 @@ function RelatedProducts({ category }) {
                                         ${product.price}
                                     </span>
                                 )}
+                                 <AddToCartButton product={product} />
                             </div>
                         );
                     })
