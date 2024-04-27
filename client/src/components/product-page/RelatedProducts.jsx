@@ -4,9 +4,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import StarRatings from "../product-grid/StarRatings";
 import axios from "axios";
+import AddToCartButton from "./AddToCartButton";
 
 function RelatedProducts({ category }) {
     const [products, setProduct] = useState([]);
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
 
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -30,6 +34,13 @@ function RelatedProducts({ category }) {
     useEffect(() => {
         console.log(products);
     }, [products]);
+
+    const toggleExpand = (productId) => {
+        setIsExpanded((prev) => ({
+            ...prev,
+            [productId]: !prev[productId],
+        }));
+    };
 
     return (
         <div className="max-w-screen-2xl mx-auto p-9 pt-2">
@@ -62,9 +73,14 @@ function RelatedProducts({ category }) {
 
                                 <StarRatings rating={product.rating} />
 
-                                <p className="w-4/5 text-sm">
-                                    {product.description}
+                                <p className="h-fit text-sm my-1">
+                                    {isExpanded[product.id]
+                                        ? product.description
+                                        : `${product.description.slice(0, 100)}...`}
                                 </p>
+                            <button onClick={() => toggleExpand(product.id)}>
+                                {isExpanded[product.id] ? 'Read Less' : 'Read More'}
+                            </button>
 
                                 {product.discounted_price ? (
                                     <div className="flex flex-col sm:flex-row float-left pt-3 pb-3">
@@ -81,6 +97,7 @@ function RelatedProducts({ category }) {
                                         ${product.price}
                                     </span>
                                 )}
+                                 <AddToCartButton product={product} />
                             </div>
                         );
                     })
