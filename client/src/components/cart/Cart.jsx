@@ -4,6 +4,7 @@ import TotalPrice from "./TotalPrice";
 import CartTable from "./CartTable";
 import CheckOutButton from "./CheckOutButton";
 import TitleMessage from "./TitleMessage";
+import axios from "axios";
 
 function Cart() {
     // State for cart items and total price
@@ -15,15 +16,16 @@ function Cart() {
         isDataLoaded: false,
     });
 
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    
     // Fetch product data from API when cart items change
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await fetch("/api/product");
-                const data = await response.json();
+                const response = await axios.get(`${apiUrl}products`);
 
                 setProductData({
-                    products: data,
+                    products: response.data.products,
                     isDataLoaded: true,
                 });
             } catch (error) {
