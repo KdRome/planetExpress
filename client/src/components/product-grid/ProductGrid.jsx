@@ -37,7 +37,6 @@ function ProductGrid({ category }) {
                 const response = await axios.get(`${apiUrl}products`, {
                     
                 });
-                console.log(response.data.products)
                 setProductData({
                     products: response.data.products,
                     isDataLoaded: true,
