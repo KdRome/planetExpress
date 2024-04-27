@@ -10,10 +10,13 @@ import Footer from "./components/Footer";
 import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
 import Login from "./components/LoginPage/LogIn";
+import SendCode from "./components/LoginPage/SendCode";
+import SignUp from "./components/LoginPage/SignUp";
 
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
 import { RiRam2Line, RiCpuLine } from "react-icons/ri";  
+import ForgotPassword from "./components/LoginPage/ForgotPassword";
 
 export const Context = createContext();
 
@@ -34,6 +37,9 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/account" element={<Login />} />
+                    <Route path="/sendCode" element={<SendCode />} />
+                    <Route path="/signUp" element={<SignUp />} />
+                    <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
                     <Route path="/cart" element={<Cart />} />
                     <Route

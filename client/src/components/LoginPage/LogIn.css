@@ -3,15 +3,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 50vh;
     background-color: transparent;
   }
   
 .formWrapper {
     padding: 35px;
     border-radius: 40px;
-    background-color: #222;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: #acabab;
+    box-shadow: 0 4px 8px rgba(94, 63, 63, 0.5);
     width: 350px;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
 .label {
     display: block;
     margin-bottom: 5px;
-    color: #f0f0f0;
+    color: #080808;
 }
   
 .input {
@@ -41,7 +41,7 @@
     border: 0;
     border-radius: 40px;
     border-bottom: 1px solid #555;
-    background-color: #333;
+    background-color: rgb(110, 110, 110);
     color: #fff;
     transition: border-color 0.3s;
     display: block;

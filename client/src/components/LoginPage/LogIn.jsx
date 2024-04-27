@@ -16,8 +16,11 @@ function LogIn( {setIsAuthenticated} ) {
   const handleForgottenPassword = () => {
   
     console.log("Forgot password button clicked");
-    //navigate("/ForgotPassword");
   };
+  
+  const handleNewAccount = () => {
+    console.log("New Account button clicked");
+  }
 
   // In LogIn.jsx
 const handleSubmit = async (e) => {
@@ -30,8 +33,8 @@ const handleSubmit = async (e) => {
   });
 
     console.log("Authentication Successful", response.data);
-    setIsAuthenticated(true);
-    navigate("/main-page");  // Updated to /main-page
+    
+    navigate("/");  // Updated to /main-page
   } catch (err) {
     setError("Authentication failed. Please check your credentials.");
     console.error(err);
@@ -67,6 +70,9 @@ const handleSubmit = async (e) => {
           <button className="button" type="submit">Log In</button>
           <div className="forgotPassword">
             <Link to="/SendCode" onClick={handleForgottenPassword}>Forgot Password?</Link>
+          </div>
+          <div className="noAccount">
+            <Link to="/signUp" onClick={handleNewAccount}>No Account?</Link>
           </div>
         </form>
         {error && <p className="errorMessage">{error}</p>}
