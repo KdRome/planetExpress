@@ -67,7 +67,7 @@ function RelatedProducts({ category }) {
                                     />
 
                                     <h4 className="text-lg font-medium mb-1">
-                                        {product.title}
+                                        {product.title.slice(0,50)}...
                                     </h4>
                                 </a>
 
