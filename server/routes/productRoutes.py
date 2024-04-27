@@ -46,3 +46,28 @@ def get_product_details(product_id):
         )
     else:
         return jsonify({"error": "Product not found"}), 404
+    
+@productBP.route("/api/products/related/<string:category>", methods=["GET"])
+def get_related_products(category):
+    products = Product.query.filter_by(category=category).all()
+
+    if products:
+        return jsonify(
+            {
+                "products": [
+                    {
+                        "id": product.product_id,
+                        "title": product.title,
+                        "category": product.category,
+                        "description": product.description,
+                        "image": product.image,
+                        "price": product.price,
+                        "rating": product.rating,
+                        "uri": product.uri,
+                    }
+                    for product in products
+                ]
+            }
+        )
+    else:
+        return jsonify({"message": "No products found in this category"}), 404

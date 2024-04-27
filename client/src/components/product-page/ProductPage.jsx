@@ -6,11 +6,11 @@ import AddToCartButton from "./AddToCartButton";
 import { ToastContainer } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import RelatedProducts from "./RelatedProducts";
+import RelatedProducts from "./RelatedProducts.jsx";
 import axios from "axios";
 
 function ProductPage() {
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState();
     const { id } = useParams();
 
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -19,7 +19,6 @@ function ProductPage() {
         const fetchProductData = async () => {
             try {
                 const response = await axios.get(`${apiUrl}products/${id}`);
-                console.log(response.data.product);
                 setProduct(response.data.product);
             } catch (error) {
                 console.log("Problem with API connectivity", error);
@@ -41,7 +40,7 @@ function ProductPage() {
                             <LazyLoadImage
                             effect="blur"
                             src={product.image}
-                            alt={product.image}
+                            alt={product.id}
                             className=""
                             wrapperClassName="product-image mb-8 lg:mb-0"
                             width={400}
@@ -85,7 +84,7 @@ function ProductPage() {
                 <ToastContainer />
             </div>
 
-            {product.length > 0 ? (
+            {product ? (
                 <RelatedProducts category={product.category} />
             ) : (
                 <p>Loading...</p>

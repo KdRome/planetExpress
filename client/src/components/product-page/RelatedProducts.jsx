@@ -3,20 +3,20 @@ import React, { useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import StarRatings from "../product-grid/StarRatings";
+import axios from "axios";
 
 function RelatedProducts({ category }) {
     const [products, setProduct] = useState([]);
 
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await fetch(
-                    `/api/products/related/${category}`
-                );
-                const data = await response.json();
+                const response = await axios.get(`${apiUrl}products/related/${category}`);
 
                 setProduct({
-                    products: data,
+                    products: response.data.products,
                     isDataLoaded: true,
                 });
             } catch (error) {
@@ -44,13 +44,13 @@ function RelatedProducts({ category }) {
                                 key={product.id}
                             >
                                 <a
-                                    href={product.uri}
+                                    href={product.id}
                                     className="flex
                                  flex-col hover:underline"
                                 >
                                     <LazyLoadImage
                                         effect="blur"
-                                        src={"../" + product.image}
+                                        src={product.image}
                                         alt={product.description}
                                         className="mb-4 w-full"
                                     />
