@@ -30,6 +30,9 @@ ENV/
 .vite/
 .vitest/
 
+#sql commands
+*.pgsql
+
 # General
 *.log
 *.csv
