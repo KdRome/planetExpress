@@ -64,6 +64,7 @@ class CPU(database.Model):
     boost_clock = database.Column(database.Float)
     socket_type = database.Column(database.String(50))
     tdp = database.Column(database.Integer, nullable=True)
+    integrated_graphics = database.Column(database.String(50), nullable=True)
 
 class GPU(database.Model):
     __tablename__ = 'gpu'
