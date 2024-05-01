@@ -25,6 +25,7 @@ instance/
 .venv/
 virt_env/
 ENV/
+startServer.sh
 
 # Vite specific
 .vite/
