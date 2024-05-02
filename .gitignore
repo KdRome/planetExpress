@@ -25,10 +25,14 @@ instance/
 .venv/
 virt_env/
 ENV/
+startServer.sh
 
 # Vite specific
 .vite/
 .vitest/
+
+#sql commands
+*.pgsql
 
 # General
 *.log

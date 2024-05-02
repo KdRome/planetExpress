@@ -94,7 +94,7 @@ function CartTable({ cartItems, setCartItems }) {
                     <tr key={product.id} className="border-b">
                         <td className="py-10">
                             <div className="flex items-center">
-                                <a href={"products/" + product.uri}>
+                                <a href={"products/" + product.id}>
                                     <img
                                         src={product.image}
                                         alt=""
@@ -104,7 +104,7 @@ function CartTable({ cartItems, setCartItems }) {
                                     ></img>
                                 </a>
                                 <div className="hidden sm:flex flex-col mr-2">
-                                    <a href={"products/" + product.uri}>
+                                    <a href={"products/" + product.id}>
                                         <span className="text-lg font-medium text-gray-900">
                                             {product.title}
                                         </span>
