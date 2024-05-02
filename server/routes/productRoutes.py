@@ -56,7 +56,7 @@ def get_product_details(product_id):
     
 @productBP.route("/api/products/related/<string:category>", methods=["GET"])
 def get_related_products(category):
-    products = Product.query.filter_by(category=category).all()
+    products = Product2.query.filter_by(category=category).all()
 
     if products:
         return jsonify(
