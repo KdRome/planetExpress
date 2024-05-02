@@ -101,18 +101,24 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
     
         validate();
     };
-
-    const handleColorFilter = (event) => {
+    
+    const handleCoreChange = (event) => {
         const { value, checked } = event.target;
+        //have to be int since they are ints in db
+        const numericValue = parseInt(value, 10);
 
-        // Adds and removes colors from colors state
-        setColors((prevColors) =>
-            checked
-                ? [...prevColors, value]
-                : prevColors.filter((color) => color !== value)
-        );
+        setFilters(prevFilters => {
+            const updatedCores = checked
+                ? [...prevFilters.cpuCores, numericValue]  // Store cores as numbers
+                : prevFilters.cpuCores.filter(core => core !== numericValue);
+
+            return { ...prevFilters, cpuCores: updatedCores };
+        });
+    
+        validate();
     };
-
+    
+    
     // Saves the price input into state
     const handlePriceFilter = (event) => {
         // Saves user value input into state
