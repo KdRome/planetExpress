@@ -1,16 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 const ProductFiltering = ({ products, setFilteredProducts }) => {
-    // User selected colors from filter
-    const [colors, setColors] = useState([]);
     // User selected Min and max price values from filter
     const [price, setPrice] = useState({});
     // Sets state for mobile menu
     const [isOpen, setIsOpen] = useState(false);
 
+    const [filters, setFilters] = useState({
+        cpuBrands: [],
+        cpuCores: [],
+        gpuBrands: [],
+        gpuModels: [],
+        ramSize: [],
+        ramType: [],
+        motherboardSocketType: [],
+        motherboardFormFactor: []
+    })
+
+    const brands = useMemo(() => {
+        const allBrands = products.map(product => product.cpu?.brand).filter(brand => brand != null);
+        return [...new Set(allBrands)].sort();
+    }, [products]);
+
+    const cores = useMemo(() => {
+        const allCores = products.map(product => product.cpu?.cores).filter(cores => cores != null);
+        return [...new Set(allCores)].sort((a, b) => a - b);
+    }, [products]);
+
     useEffect(() => {
         validate();
-    }, [colors, price]);
+    }, [filters, price, products]);
 
     const filterByPrice = () => {
         return products.filter((product) => {
