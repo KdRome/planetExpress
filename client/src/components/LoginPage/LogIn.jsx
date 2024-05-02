@@ -34,7 +34,7 @@ const handleSubmit = async (e) => {
 
     console.log("Authentication Successful", response.data);
     
-    navigate("/");  // Updated to /main-page
+    navigate("/account");  // Updated to /main-page
   } catch (err) {
     setError("Authentication failed. Please check your credentials.");
     console.error(err);
