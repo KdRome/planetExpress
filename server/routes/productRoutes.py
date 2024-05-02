@@ -35,7 +35,7 @@ def get_products():
 
 @productBP.route("/api/products/<int:product_id>", methods=["GET"])
 def get_product_details(product_id):
-    product = Product.query.get(product_id)
+    product = Product2.query.get(product_id)
     if product:
         return jsonify(
             {
@@ -100,7 +100,7 @@ def get_products():
     try:
         products = Product2.query.all()
         product_list = [{
-            'product_id': product.product_id,
+            'id': product.product_id,
             'title': product.title,
             'category': product.category,
             'description': product.description,
