@@ -174,33 +174,46 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
                 className={`lg:flex lg:flex-col ${isOpen ? "block" : "hidden"}`}
             >
                 <div className="border-t border-gray-200 p-3 pt-5 pb-0">
-                    {/* Colors filter */}
-                    <span>Colors: </span>
-
+                    <span>CPU Brands: </span>
                     <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
-                        {/* Creates a set to remove duplicates and renders each color */}
-                        {[...new Set(products.map((product) => product.color))]
-                            .sort()
-                            .map((color, index) => (
-                                <li
-                                    key={index}
-                                    className="flex items-center pt-2 pb-2 pl-4"
-                                >
-                                    <input
-                                        id={color}
-                                        type="checkbox"
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                        onChange={handleColorFilter}
-                                        value={color}
-                                    />
-                                    <label
-                                        htmlFor={color}
-                                        className="ml-2 text-sm font-medium text-gray-900"
-                                    >
-                                        {color}
-                                    </label>
-                                </li>
-                            ))}
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {brands.map((brand, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`brand-${brand}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="cpuBrands"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleBrandChange}
+                                    value={brand}
+                                />
+                                <label htmlFor={`brand-${brand}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {brand}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>CPU Cores: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu Core */}
+                        {cores.map((cores, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`cores-${cores}`}
+                                    type="checkbox"
+                                    name="cpuCores"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleCoreChange}
+                                    value={cores}
+                                />
+                                <label htmlFor={`cores-${cores}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {cores}
+                                </label>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
