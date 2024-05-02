@@ -14,7 +14,7 @@ import SendCode from "./components/LoginPage/SendCode";
 import SignUp from "./components/LoginPage/SignUp";
 import ForgotPassword from "./components/LoginPage/ForgotPassword";
 import MyAccount from "./components/my_account/MyAccount"; 
-import axios from 'axios';
+
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
 import { RiRam2Line, RiCpuLine } from "react-icons/ri";  
@@ -23,8 +23,7 @@ export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); //isLoggedIn state
-    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for authentication
 
     const navigationItems = [
         { name: "CPU", icon: RiCpuLine },
@@ -33,39 +32,19 @@ function App() {
         { name: "Motherboard", icon: BsMotherboard },
     ];
 
-    const handleLogin = async (email, password) => {
-        try {
-            const response = await axios.post(`${apiUrl}login`, {
-                email,
-                password
-            });
-    
-            const { token } = response.data;
-    
-            localStorage.setItem('token', token);
-    
-            console.log("Setting isLoggedIn to true...");
-            setIsLoggedIn(true);
-            console.log("isLoggedIn set to true.");
-    
-        } catch (error) {
-            console.error("Login failed:", error);
-        }
-    };    
-    
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
             <AnnouncementBar title="Free Shipping on Earth" />
-            <Header navigationItems={navigationItems} />
-
+            <Header navigationItems={navigationItems} isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn to Header */}
+            
             <Router>
                 <Routes>
                     {/* Routes for login-related components */}
-                    <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                    <Route path="/sendcode" element={<SendCode />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/forgotpassword" element={<ForgotPassword />} />
-
+                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="/sendCode" element={<SendCode />} />
+                    <Route path="/signUp" element={<SignUp />} />
+                    <Route path="/forgotPassword" element={<ForgotPassword />} />
+                    
                     {/* Protected route for MyAccount */}
                     {/* If isLoggedIn is true, render MyAccount component, otherwise redirect to login */}
                     {isLoggedIn ? (

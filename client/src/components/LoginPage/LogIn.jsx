@@ -1,10 +1,11 @@
+// LogIn.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './LogIn.css'
-import './SendCode.jsx'
+import './LogIn.css';
+import './SendCode.jsx';
 
-function LogIn( {setIsAuthenticated} ) {
+function LogIn({ setIsLoggedIn }) {  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,33 +15,28 @@ function LogIn( {setIsAuthenticated} ) {
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleForgottenPassword = () => {
-  
     console.log("Forgot password button clicked");
   };
-  
+
   const handleNewAccount = () => {
     console.log("New Account button clicked");
-  }
+  };
 
-  // In LogIn.jsx
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const response = await axios.post(`${apiUrl}login`, {
-      email,
-      password
-  });
-
-    console.log("Authentication Successful", response.data);
-    
-    navigate("/account");  // Updated to /main-page
-  } catch (err) {
-    setError("Authentication failed. Please check your credentials.");
-    console.error(err);
-  }
-};
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${apiUrl}login`, {
+        email,
+        password
+      });
+      console.log("Authentication Successful", response.data);
+      setIsLoggedIn(true);  // Now this should correctly update the state
+      navigate("/account");
+    } catch (err) {
+      setError("Authentication failed. Please check your credentials.");
+      console.error(err);
+    }
+  };
 
   return (
     <div className="container">
@@ -59,13 +55,13 @@ const handleSubmit = async (e) => {
           </div>
           <div className="formGroup">
             <label>Password:</label>
-              <input
-                className="input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+            <input
+              className="input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
           <button className="button" type="submit">Log In</button>
           <div className="forgotPassword">
