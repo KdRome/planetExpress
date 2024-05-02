@@ -41,16 +41,6 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
         });
     };
 
-    const filterByColors = () => {
-        return products.filter((product) => colors.includes(product.color));
-    };
-
-    const filterByPriceAndColor = () => {
-        return filterByPrice().filter((product) =>
-            filterByColors().includes(product)
-        );
-    };
-
     const getPrices = () => {
         // Returns discounted_price if available
         return products.map((product) => {
@@ -70,29 +60,46 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
 
     // Validates user input to return / set the correct products
     const validate = () => {
-        // If colors are set but no price input is provided
-        if (filterByColors().length && !price.maxValue)
-            return setFilteredProducts({
-                products: filterByColors(),
-                isFiltered: true,
-            });
 
-        // If the max price value is set but no color value is specified
-        if (!filterByColors().length && price.maxValue)
+        let filteredProducts = products.filter(product => {
+            return (
+                // CPU
+                (filters.cpuBrands.length === 0 || filters.cpuBrands.includes(product.cpu?.brand)) &&
+                (filters.cpuCores.length === 0 || filters.cpuCores.includes(product.cpu?.cores))
+                //GPU
+                // (filters.gpuBrands.length === 0 || filters.gpuBrands.includes(product.gpu?.brand)) &&
+                // (filters.gpuModels.length === 0 || filters.gpuModels.includes(product.gpu?.model)) &&
+                // //RAM
+                // (filters.ramSize.length === 0 || filters.ramSize.includes(product.ram?.memory_size.toString())) &&
+                // (filters.ramType.includes(product.ram?.type)) &&
+                // //Motherboard
+                // (filters.motherboardSocketType.length === 0 || filters.motherboardSocketType.includes(product.motherboard?.socket_type)) &&
+                // (filters.motherboardFormFactor.length === 0 || filters.motherboardFormFactor.includes(product.motherboard?.form_factor))
+            );
+        });
+
+        // If the max price value is set
+        if (price.maxValue)
             return setFilteredProducts({
                 products: filterByPrice(),
                 isFiltered: true,
             });
 
-        // If both price and colors are set
-        if (filterByColors().length && price.maxValue) {
-            return setFilteredProducts({
-                products: filterByPriceAndColor(),
-                isFiltered: true,
-            });
-        }
+        setFilteredProducts({ products: filteredProducts, isFiltered: filteredProducts.length > 0 });
+    };
 
-        setFilteredProducts({ products: products, isFiltered: false });
+    const handleBrandChange = (event) => {
+        const { value, checked } = event.target;
+    
+        setFilters(prevFilters => {
+            const updatedBrands = checked 
+                ? [...prevFilters.cpuBrands, value]
+                : prevFilters.cpuBrands.filter(item => item !== value);
+    
+            return { ...prevFilters, cpuBrands: updatedBrands };
+        });
+    
+        validate();
     };
 
     const handleColorFilter = (event) => {
