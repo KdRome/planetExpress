@@ -125,8 +125,8 @@ def get_products():
                 'model': product.gpu.model,
                 'memory_size': float(product.gpu.memory_size),
                 'memory_type': product.gpu.memory_type,
-                'base_clock': product.gpu.base_clock,
-                'boost_clock': product.gpu.boost_clock,
+                'gpu_clock': product.gpu.gpu_clock,
+                'memory_clock': product.gpu.memory_clock,
                 'tdp': product.gpu.tdp
             } if product.gpu else None,
             'ram': {

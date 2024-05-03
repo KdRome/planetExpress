@@ -73,8 +73,8 @@ class GPU(database.Model):
     model = database.Column(database.String(100))
     memory_size = database.Column(database.Numeric(10,2))
     memory_type = database.Column(database.String(50))
-    base_clock = database.Column(database.Float)
-    boost_clock = database.Column(database.Float)
+    gpu_clock = database.Column(database.Integer)
+    memory_clock = database.Column(database.Integer)
     tdp = database.Column(database.Integer)
 
 class RAM(database.Model):
