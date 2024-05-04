@@ -17,7 +17,7 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
         motherboardFormFactor: []
     })
 
-    const brands = useMemo(() => {
+    const cpu_brands = useMemo(() => {
         const allBrands = products.map(product => product.cpu?.brand).filter(brand => brand != null);
         return [...new Set(allBrands)].sort();
     }, [products]);
@@ -25,6 +25,16 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
     const cores = useMemo(() => {
         const allCores = products.map(product => product.cpu?.cores).filter(cores => cores != null);
         return [...new Set(allCores)].sort((a, b) => a - b);
+    }, [products]);
+
+    const gpu_brands = useMemo(() => {
+        const allBrands = products.map(product => product.gpu?.brand).filter(brand => brand != null);
+        return [...new Set(allBrands)].sort();
+    }, [products]);
+
+    const gpu_models = useMemo(() => {
+        const allModels = products.map(product => product.gpu?.model).filter(brand => brand != null)
+        return [...new Set(allModels)].sort();
     }, [products]);
 
     useEffect(() => {
@@ -65,10 +75,10 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
             return (
                 // CPU
                 (filters.cpuBrands.length === 0 || filters.cpuBrands.includes(product.cpu?.brand)) &&
-                (filters.cpuCores.length === 0 || filters.cpuCores.includes(product.cpu?.cores))
+                (filters.cpuCores.length === 0 || filters.cpuCores.includes(product.cpu?.cores)) &&
                 //GPU
-                // (filters.gpuBrands.length === 0 || filters.gpuBrands.includes(product.gpu?.brand)) &&
-                // (filters.gpuModels.length === 0 || filters.gpuModels.includes(product.gpu?.model)) &&
+                (filters.gpuBrands.length === 0 || filters.gpuBrands.includes(product.gpu?.brand)) &&
+                (filters.gpuModels.length === 0 || filters.gpuModels.includes(product.gpu?.model))
                 // //RAM
                 // (filters.ramSize.length === 0 || filters.ramSize.includes(product.ram?.memory_size.toString())) &&
                 // (filters.ramType.includes(product.ram?.type)) &&
@@ -88,7 +98,7 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
         setFilteredProducts({ products: filteredProducts, isFiltered: filteredProducts.length > 0 });
     };
 
-    const handleBrandChange = (event) => {
+    const handleCPUBrandChange = (event) => {
         const { value, checked } = event.target;
     
         setFilters(prevFilters => {
@@ -117,7 +127,32 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
     
         validate();
     };
+
+    const handleGPUBrandChange = (event) => {
+        const { value, checked } = event.target;
     
+        setFilters(prevFilters => {
+            const updatedBrands = checked 
+            ? [...prevFilters.gpuBrands, value]
+            : prevFilters.gpuBrands.filter(item => item !== value);
+    
+            return { ...prevFilters, gpuBrands: updatedBrands };
+        });
+    
+        validate();
+    };
+    
+    const handleGPUModelChange = (event) => {
+        const { value, checked } = event.target;
+
+        setFilters(prevFilters => {
+            const updatedModels = checked
+            ? [...prevFilters.gpuModels, value]
+            : prevFilters.gpuModels.filter(item => item !== value);
+
+            return { ...prevFilters, gpuModels: updatedModels };
+        })
+    }
     
     // Saves the price input into state
     const handlePriceFilter = (event) => {
@@ -177,14 +212,14 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
                     <span>CPU Brands: </span>
                     <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
                         {/* Creates a set to remove duplicates and renders each cpu brand */}
-                        {brands.map((brand, index) => (
+                        {cpu_brands.map((brand, index) => (
                             <li key={index} className="flex items-center pt-2 pb-2 pl-4">
                                 <input
                                     id={`brand-${brand}`} // Ensure IDs are unique if brand names could be non-unique
                                     type="checkbox"
                                     name="cpuBrands"
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                    onChange={handleBrandChange}
+                                    onChange={handleCPUBrandChange}
                                     value={brand}
                                 />
                                 <label htmlFor={`brand-${brand}`} className="ml-2 text-sm font-medium text-gray-900">
@@ -211,6 +246,50 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
                                 />
                                 <label htmlFor={`cores-${cores}`} className="ml-2 text-sm font-medium text-gray-900">
                                     {cores}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>GPU Brands: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {gpu_brands.map((brand, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`brand-${brand}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="gpuBrands"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleGPUBrandChange}
+                                    value={brand}
+                                />
+                                <label htmlFor={`brand-${brand}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {brand}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>GPU Models: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {gpu_models.map((model, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`model-${model}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="gpuModels"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleGPUModelChange}
+                                    value={model}
+                                />
+                                <label htmlFor={`model-${model}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {model}
                                 </label>
                             </li>
                         ))}
