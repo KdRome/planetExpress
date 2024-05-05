@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from models.databaseModels import User_Info, Product
 from server import bcrypt
 from extensions.extensions import database
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 def getDatabase():
     from server import database
@@ -65,6 +66,23 @@ def login():
     user = User_Info.query.filter_by(email=data.get("email")).first()
 
     if user and bcrypt.check_password_hash(user.password_hash, data.get("password")):
-        return jsonify({"message": "Login successful"}), 200
+        access_token = create_access_token(identity=user.email) # create JWT Token
+        return jsonify({
+            "message": "Login successful",
+            "access_token": access_token
+            }), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401
+
+
+# Secure routes that need token (acc info)
+
+# handle token expiration
+
+# Endpoint to obtain a new access token using the refresh token
+@userBP.route('/api/token/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    current_user = get_jwt_identity()
+    new_token = create_access_token(identity=current_user)
+    return jsonify({'access_token': new_token})

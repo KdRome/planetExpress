@@ -31,10 +31,16 @@ const handleSubmit = async (e) => {
       email,
       password
   });
+    if (response.data.access_token) {
 
-    console.log("Authentication Successful", response.data);
-    
-    navigate("/");  // Updated to /main-page
+      localStorage.setItem('authToekn', response.data.access_token); // store token in local storage
+      console.log("Authentication Successful", response.data);
+      
+      navigate("/");  // Updated to /main-page
+    } else {
+      throw new Error("No Token received");
+    }
+
   } catch (err) {
     setError("Authentication failed. Please check your credentials.");
     console.error(err);
