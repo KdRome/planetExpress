@@ -9,11 +9,12 @@ import ProductGrid from "./components/product-grid/ProductGrid";
 import Footer from "./components/Footer";
 import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
+import MyAccount from "./components/my_account/MyAccount"; 
+//authentication components
 import Login from "./components/LoginPage/LogIn";
 import SendCode from "./components/LoginPage/SendCode";
 import SignUp from "./components/LoginPage/SignUp";
 import ForgotPassword from "./components/LoginPage/ForgotPassword";
-import MyAccount from "./components/my_account/MyAccount"; 
 
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
