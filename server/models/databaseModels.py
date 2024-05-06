@@ -2,6 +2,7 @@ from extensions.extensions import database
 from sqlalchemy import DateTime
 
 class User_Info(database.Model):
+    __tablename__ = 'user__info'
     user_id = database.Column(database.Integer, primary_key=True)
     email = database.Column(database.String(255), unique=True, nullable=False)
     password_hash = database.Column(database.String(60), nullable=False)
@@ -94,3 +95,17 @@ class Motherboard(database.Model):
     chipset = database.Column(database.String(50))
     form_factor = database.Column(database.String(50))
     socket_type = database.Column(database.String(50))
+
+class CartItem(database.Model):
+    __tablename__ = 'cart_items'
+
+    id = database.Column(database.Integer, primary_key=True)
+    user_id = database.Column(database.Integer, database.ForeignKey('user__info.user_id'))
+    product_id = database.Column(database.Integer, database.ForeignKey('all_products.product_id'))
+    quantity = database.Column(database.Integer, nullable=False, default=1)
+
+    # Relationship with the User model (assuming you have a User model)
+    user = database.relationship('User_Info', backref='cart_items')
+
+    # Relationship with the Product model
+    product = database.relationship('Product2', backref='cart_items')

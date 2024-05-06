@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
-from models.databaseModels import User_Info, VerificationCode
+from models.databaseModels import User_Info, VerificationCode, CartItem
 from server import mail
 from extensions.extensions import database, bcrypt
 from flask_mail import Message
 from datetime import datetime
 import secrets
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 emailBP = Blueprint('emailBP', __name__)
 
@@ -131,3 +132,35 @@ def emailAuthenticaiton():
     except Exception as e:
         print(f"Error verifying: {e}")
         return jsonify({"error": "Failed to verify", "details": str(e)}), 500
+    
+@emailBP.route("/api/checkout", methods=["POST"])
+@jwt_required()
+def checkout():
+    user_email = get_jwt_identity()
+    user = User_Info.query.filter_by(email=user_email).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    
+    data = request.get_json()
+    try:
+        for item in data['cart']:
+            product_id = item['id']
+            quantity = item['quantity']  # Make sure 'quantity' directly accesses the integer value
+
+            # Create new CartItem object using user.user_id
+            new_cart_item = CartItem(user_id=user.user_id, product_id=product_id, quantity=quantity)
+            database.session.add(new_cart_item)
+
+        database.session.commit()
+        # Consider calling send_confirmation_email here if it should happen on successful checkout
+        send_confirmation_email(user_email)
+        return jsonify({'message': 'Checkout successful'}), 200
+    except Exception as e:
+        database.session.rollback()  # Ensure to rollback on error
+        return jsonify({"error": str(e)}), 500
+
+def send_confirmation_email(email):
+    
+    msg = Message("Order Confirmation", sender="No-Reply@PlanetExpress.store", recipients=[email])        
+    msg.body = "Thank You for your order!"
+    mail.send(msg)
