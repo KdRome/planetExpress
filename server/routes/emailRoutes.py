@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models.databaseModels import User_Info, VerificationCode, CartItem
+from models.databaseModels import User_Info, VerificationCode, CartItem, Order, Product2, OrderItem
 from server import mail
 from extensions.extensions import database, bcrypt
 from flask_mail import Message
@@ -142,21 +142,40 @@ def checkout():
         return jsonify({"message": "User not found"}), 404
     
     data = request.get_json()
+    if 'cart' not in data or not data['cart']:
+        return jsonify({'message': 'Cart is empty'}), 400
+
+    # Create an Order
+    order = Order(user_id=user.user_id, total_price=0)
+    total_price = 0
+
+    # Process each cart item from the JSON into an order item directly
+    for item in data['cart']:
+        product_id = item['id']
+        quantity = item['quantity']
+
+        product = Product2.query.get(product_id)
+        if not product:
+            continue  # or handle error more robustly
+        
+        order_item = OrderItem(
+            order=order,  # Assign the order object directly
+            product_id=product_id,
+            quantity=quantity,
+            price=product.price
+        )
+        total_price += product.price * quantity
+        database.session.add(order_item)
+
+    order.total_price = total_price
+    database.session.add(order)
+    
     try:
-        for item in data['cart']:
-            product_id = item['id']
-            quantity = item['quantity']  # Make sure 'quantity' directly accesses the integer value
-
-            # Create new CartItem object using user.user_id
-            new_cart_item = CartItem(user_id=user.user_id, product_id=product_id, quantity=quantity)
-            database.session.add(new_cart_item)
-
-        database.session.commit()
-        # Consider calling send_confirmation_email here if it should happen on successful checkout
-        send_confirmation_email(user_email)
-        return jsonify({'message': 'Checkout successful'}), 200
+        database.session.commit()  # Commit all changes including the order and order items
+        send_confirmation_email(user_email)  # Send confirmation after successful transaction
+        return jsonify({'message': 'Checkout successful', 'order_id': order.id}), 200
     except Exception as e:
-        database.session.rollback()  # Ensure to rollback on error
+        database.session.rollback()
         return jsonify({"error": str(e)}), 500
 
 def send_confirmation_email(email):

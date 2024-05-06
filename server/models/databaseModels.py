@@ -1,5 +1,6 @@
 from extensions.extensions import database
 from sqlalchemy import DateTime
+from datetime import datetime
 
 class User_Info(database.Model):
     __tablename__ = 'user__info'
@@ -104,8 +105,29 @@ class CartItem(database.Model):
     product_id = database.Column(database.Integer, database.ForeignKey('all_products.product_id'))
     quantity = database.Column(database.Integer, nullable=False, default=1)
 
-    # Relationship with the User model (assuming you have a User model)
     user = database.relationship('User_Info', backref='cart_items')
-
-    # Relationship with the Product model
     product = database.relationship('Product2', backref='cart_items')
+
+
+class OrderItem(database.Model):
+    __tablename__ = 'order_items'
+
+    id = database.Column(database.Integer, primary_key=True)
+    order_id = database.Column(database.Integer, database.ForeignKey('orders.id'))
+    product_id = database.Column(database.Integer, database.ForeignKey('all_products.product_id'))
+    quantity = database.Column(database.Integer, nullable=False)
+    price = database.Column(database.Numeric(10, 2), nullable=False)
+
+    product = database.relationship('Product2', backref='order_items')
+    order = database.relationship('Order', backref='items')
+
+
+class Order(database.Model):
+    __tablename__ = 'orders'
+
+    id = database.Column(database.Integer, primary_key=True)
+    user_id = database.Column(database.Integer, database.ForeignKey('user__info.user_id'))
+    total_price = database.Column(database.Numeric(10, 2))
+    created_at = database.Column(database.DateTime, default=datetime.utcnow)
+
+    user = database.relationship('User_Info', backref='orders')
