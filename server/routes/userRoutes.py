@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models.databaseModels import User_Info, Product
+from models.databaseModels import User_Info, Product, Order
 from server import bcrypt
 from extensions.extensions import database
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -86,3 +86,24 @@ def refresh():
     current_user = get_jwt_identity()
     new_token = create_access_token(identity=current_user)
     return jsonify({'access_token': new_token})
+
+
+@userBP.route('/api/orders', methods=['GET'])
+@jwt_required()
+def get_order_history():
+    user_email = get_jwt_identity()
+    user = User_Info.query.filter_by(email=user_email).first()
+    orders = Order.query.filter_by(user_id=user.user_id).all()  # Fetching user-specific orders
+    
+    # Convert the list of Order objects to a list of dictionaries
+    order_dicts = [
+        {
+            'id': order.id,
+            'user_id': order.user_id,
+            'total_price': order.total_price,  # Convert to string to ensure JSON serializable
+            'created_at': order.created_at.isoformat()  # Convert to ISO format string
+        }
+        for order in orders
+    ]
+
+    return jsonify({"orders": order_dicts})
