@@ -1,16 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 const ProductFiltering = ({ products, setFilteredProducts }) => {
-    // User selected colors from filter
-    const [colors, setColors] = useState([]);
     // User selected Min and max price values from filter
     const [price, setPrice] = useState({});
     // Sets state for mobile menu
     const [isOpen, setIsOpen] = useState(false);
 
+    const [filters, setFilters] = useState({
+        cpuBrands: [],
+        cpuCores: [],
+        gpuBrands: [],
+        gpuModels: [],
+        ramSize: [],
+        ramType: [],
+        motherboardSocketType: [],
+        motherboardFormFactor: []
+    })
+
+    const cpu_brands = useMemo(() => {
+        const allBrands = products.map(product => product.cpu?.brand).filter(brand => brand != null);
+        return [...new Set(allBrands)].sort();
+    }, [products]);
+
+    const cores = useMemo(() => {
+        const allCores = products.map(product => product.cpu?.cores).filter(cores => cores != null);
+        return [...new Set(allCores)].sort((a, b) => a - b);
+    }, [products]);
+
+    const gpu_brands = useMemo(() => {
+        const allBrands = products.map(product => product.gpu?.brand).filter(brand => brand != null);
+        return [...new Set(allBrands)].sort();
+    }, [products]);
+
+    const gpu_models = useMemo(() => {
+        const allModels = products.map(product => product.gpu?.model).filter(brand => brand != null)
+        return [...new Set(allModels)].sort();
+    }, [products]);
+
     useEffect(() => {
         validate();
-    }, [colors, price]);
+    }, [filters, price, products]);
 
     const filterByPrice = () => {
         return products.filter((product) => {
@@ -20,16 +49,6 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
                 productPrice >= price.minValue && productPrice <= price.maxValue
             );
         });
-    };
-
-    const filterByColors = () => {
-        return products.filter((product) => colors.includes(product.color));
-    };
-
-    const filterByPriceAndColor = () => {
-        return filterByPrice().filter((product) =>
-            filterByColors().includes(product)
-        );
     };
 
     const getPrices = () => {
@@ -51,42 +70,90 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
 
     // Validates user input to return / set the correct products
     const validate = () => {
-        // If colors are set but no price input is provided
-        if (filterByColors().length && !price.maxValue)
-            return setFilteredProducts({
-                products: filterByColors(),
-                isFiltered: true,
-            });
 
-        // If the max price value is set but no color value is specified
-        if (!filterByColors().length && price.maxValue)
+        let filteredProducts = products.filter(product => {
+            return (
+                // CPU
+                (filters.cpuBrands.length === 0 || filters.cpuBrands.includes(product.cpu?.brand)) &&
+                (filters.cpuCores.length === 0 || filters.cpuCores.includes(product.cpu?.cores)) &&
+                //GPU
+                (filters.gpuBrands.length === 0 || filters.gpuBrands.includes(product.gpu?.brand)) &&
+                (filters.gpuModels.length === 0 || filters.gpuModels.includes(product.gpu?.model))
+                // //RAM
+                // (filters.ramSize.length === 0 || filters.ramSize.includes(product.ram?.memory_size.toString())) &&
+                // (filters.ramType.includes(product.ram?.type)) &&
+                // //Motherboard
+                // (filters.motherboardSocketType.length === 0 || filters.motherboardSocketType.includes(product.motherboard?.socket_type)) &&
+                // (filters.motherboardFormFactor.length === 0 || filters.motherboardFormFactor.includes(product.motherboard?.form_factor))
+            );
+        });
+
+        // If the max price value is set
+        if (price.maxValue)
             return setFilteredProducts({
                 products: filterByPrice(),
                 isFiltered: true,
             });
 
-        // If both price and colors are set
-        if (filterByColors().length && price.maxValue) {
-            return setFilteredProducts({
-                products: filterByPriceAndColor(),
-                isFiltered: true,
-            });
-        }
-
-        setFilteredProducts({ products: products, isFiltered: false });
+        setFilteredProducts({ products: filteredProducts, isFiltered: filteredProducts.length > 0 });
     };
 
-    const handleColorFilter = (event) => {
+    const handleCPUBrandChange = (event) => {
+        const { value, checked } = event.target;
+    
+        setFilters(prevFilters => {
+            const updatedBrands = checked 
+                ? [...prevFilters.cpuBrands, value]
+                : prevFilters.cpuBrands.filter(item => item !== value);
+    
+            return { ...prevFilters, cpuBrands: updatedBrands };
+        });
+    
+        validate();
+    };
+    
+    const handleCoreChange = (event) => {
+        const { value, checked } = event.target;
+        //have to be int since they are ints in db
+        const numericValue = parseInt(value, 10);
+
+        setFilters(prevFilters => {
+            const updatedCores = checked
+                ? [...prevFilters.cpuCores, numericValue]  // Store cores as numbers
+                : prevFilters.cpuCores.filter(core => core !== numericValue);
+
+            return { ...prevFilters, cpuCores: updatedCores };
+        });
+    
+        validate();
+    };
+
+    const handleGPUBrandChange = (event) => {
+        const { value, checked } = event.target;
+    
+        setFilters(prevFilters => {
+            const updatedBrands = checked 
+            ? [...prevFilters.gpuBrands, value]
+            : prevFilters.gpuBrands.filter(item => item !== value);
+    
+            return { ...prevFilters, gpuBrands: updatedBrands };
+        });
+    
+        validate();
+    };
+    
+    const handleGPUModelChange = (event) => {
         const { value, checked } = event.target;
 
-        // Adds and removes colors from colors state
-        setColors((prevColors) =>
-            checked
-                ? [...prevColors, value]
-                : prevColors.filter((color) => color !== value)
-        );
-    };
+        setFilters(prevFilters => {
+            const updatedModels = checked
+            ? [...prevFilters.gpuModels, value]
+            : prevFilters.gpuModels.filter(item => item !== value);
 
+            return { ...prevFilters, gpuModels: updatedModels };
+        })
+    }
+    
     // Saves the price input into state
     const handlePriceFilter = (event) => {
         // Saves user value input into state
@@ -142,33 +209,90 @@ const ProductFiltering = ({ products, setFilteredProducts }) => {
                 className={`lg:flex lg:flex-col ${isOpen ? "block" : "hidden"}`}
             >
                 <div className="border-t border-gray-200 p-3 pt-5 pb-0">
-                    {/* Colors filter */}
-                    <span>Colors: </span>
-
+                    <span>CPU Brands: </span>
                     <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
-                        {/* Creates a set to remove duplicates and renders each color */}
-                        {[...new Set(products.map((product) => product.color))]
-                            .sort()
-                            .map((color, index) => (
-                                <li
-                                    key={index}
-                                    className="flex items-center pt-2 pb-2 pl-4"
-                                >
-                                    <input
-                                        id={color}
-                                        type="checkbox"
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                        onChange={handleColorFilter}
-                                        value={color}
-                                    />
-                                    <label
-                                        htmlFor={color}
-                                        className="ml-2 text-sm font-medium text-gray-900"
-                                    >
-                                        {color}
-                                    </label>
-                                </li>
-                            ))}
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {cpu_brands.map((brand, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`brand-${brand}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="cpuBrands"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleCPUBrandChange}
+                                    value={brand}
+                                />
+                                <label htmlFor={`brand-${brand}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {brand}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>CPU Cores: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu Core */}
+                        {cores.map((cores, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`cores-${cores}`}
+                                    type="checkbox"
+                                    name="cpuCores"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleCoreChange}
+                                    value={cores}
+                                />
+                                <label htmlFor={`cores-${cores}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {cores}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>GPU Brands: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {gpu_brands.map((brand, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`brand-${brand}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="gpuBrands"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleGPUBrandChange}
+                                    value={brand}
+                                />
+                                <label htmlFor={`brand-${brand}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {brand}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="border-t border-gray-200 p-3 pt-5 pb-0">
+                    <span>GPU Models: </span>
+                    <ul className="flex flex-row lg:flex-col mb-4 mt-4 lg:ml-4 flex-wrap">
+                        {/* Creates a set to remove duplicates and renders each cpu brand */}
+                        {gpu_models.map((model, index) => (
+                            <li key={index} className="flex items-center pt-2 pb-2 pl-4">
+                                <input
+                                    id={`model-${model}`} // Ensure IDs are unique if brand names could be non-unique
+                                    type="checkbox"
+                                    name="gpuModels"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                    onChange={handleGPUModelChange}
+                                    value={model}
+                                />
+                                <label htmlFor={`model-${model}`} className="ml-2 text-sm font-medium text-gray-900">
+                                    {model}
+                                </label>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 

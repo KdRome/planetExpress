@@ -4,7 +4,7 @@ function Footer() {
     return (
         <footer className="light-gray-bg-custom dark:bg-zinc-800 mt-2.5">
             <div className="mx-auto max-w-screen-2xl p-9 py-6 lg:py-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-center sm:text-left md:mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 text-center sm:text-left md:mb-12" >
                     <div className="mt-16 sm:mt-8">
                         <h2 className="mb-6 text-sm font-semibold text-gray-700 uppercase dark:text-white">
                             Quick Links
@@ -23,28 +23,6 @@ function Footer() {
                             <li>
                                 <a href="#" className="hover:underline">
                                     Contact us
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="mt-16 sm:mt-8">
-                        <h2 className="mb-6 text-sm font-semibold text-gray-700 uppercase dark:text-white">
-                            Categories
-                        </h2>
-                        <ul className="text-gray-500 dark:text-gray-400">
-                            <li className="mb-4">
-                                <a href="/shoes" className="hover:underline">
-                                    Shoes
-                                </a>
-                            </li>
-                            <li className="mb-4">
-                                <a href="/bags" className="hover:underline">
-                                    Bags
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/hats" className="hover:underline">
-                                    Hats
                                 </a>
                             </li>
                         </ul>

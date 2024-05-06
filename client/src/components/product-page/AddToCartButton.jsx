@@ -81,7 +81,7 @@ function AddToCartButton({ product }) {
             </div>
 
             <button
-                className="w-full md:w-60 py-2 px-8 md:p-2 text-sm mt-4 transition ease-in duration-200 bg-white hover:bg-gray-800 hover:text-white text-black border hover:border-gray-800 border-gray-300"
+                className="w-full md:w-auto py-2 px-8 md:py-2 md:px-4 text-sm mt-4 transition ease-in duration-200 bg-white hover:bg-gray-800 hover:text-white text-black border hover:border-gray-800 border-gray-300 related-add-to-cart-button"
                 onClick={() => handleAddToCart()}
             >
                 Add to Cart

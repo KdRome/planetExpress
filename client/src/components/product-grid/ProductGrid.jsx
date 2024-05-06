@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 
 import ProductSorting from "./ProductSorting";
@@ -34,13 +34,20 @@ function ProductGrid({ category }) {
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const response = await axios.get(`${apiUrl}products`, {
+                const response = await axios.get(`${apiUrl}allProducts`, {
                     
                 });
                 setProductData({
                     products: response.data.products,
                     isDataLoaded: true,
                 });
+                // response.data.products.forEach(product => {
+                //     if (product.cpu && product.cpu.brand) {
+                //         console.log(`CPU Brand: ${product.cpu.brand}`);
+                //     } else {
+                //         console.log("No CPU information available for this product.");
+                //     }
+                // });
             } catch (error) {
                 console.log("Problem with API connectivity", error);
             }
@@ -53,20 +60,19 @@ function ProductGrid({ category }) {
     }, [sortedProducts, filteredProducts, productData]);
 
     // Only returns the products with the correct category
-    const getCategoryProducts = () => {
+    const getCategoryProducts = useMemo(() => {
         if (!productData.isDataLoaded) {
             return [];
         }
-
-        if (category) {
-            return productData.products.filter(
+        if (category){
+            const filteredProducts = productData.products.filter(
                 (product) => product.category === category
             );
+            return filteredProducts;
+        } else {
+            return productData.products;
         }
-
-        // When no prop category is set (e.g on homepage)
-        return productData.products;
-    };
+    }, [productData, category]);
 
     /** This function makes sure the correct products are being displayed 
        when filtering/sorting is selected */
@@ -93,7 +99,7 @@ function ProductGrid({ category }) {
         }
 
         // Else return all category products
-        return setProducts(getCategoryProducts());
+        return setProducts(getCategoryProducts);
     };
 
     const handleLoadMore = () => {
@@ -119,7 +125,7 @@ function ProductGrid({ category }) {
             <div className="max-w-screen-2xl mx-auto p-9 flex flex-col md:flex-col lg:flex-row">
                 <div className="flex flex-col relative lg:mr-8  mb-5 lg:mb-0">
                     <ProductFiltering
-                        products={getCategoryProducts()}
+                        products={getCategoryProducts}
                         setFilteredProducts={setFilteredProducts}
                     />
                 </div>
@@ -128,12 +134,12 @@ function ProductGrid({ category }) {
                     <div className="flex justify-end sm:justify-between items-center text-sm mb-2">
                         <div className="hidden sm:block">
                             <ProductCounter
-                                total={getCategoryProducts().length}
+                                total={getCategoryProducts.length}
                             />
                         </div>
 
                         <ProductSorting
-                            products={getCategoryProducts()}
+                            products={getCategoryProducts}
                             setSortedProducts={setSortedProducts}
                         />
                     </div>
@@ -212,7 +218,7 @@ function ProductGrid({ category }) {
                             <div className="text-sm p-6">
                                 <ProductCounter
                                     count={getPaginatedData().length}
-                                    total={getCategoryProducts().length}
+                                    total={getCategoryProducts.length}
                                 />
                             </div>
 

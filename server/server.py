@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from extensions.extensions import database, bcrypt, mail
+from extensions.extensions import database, bcrypt, mail, jwt
 from config.config import Config
 import routes.emailRoutes as emailRoutes, routes.userRoutes as userRoutes , routes.productRoutes as productRoutes
 import os
@@ -15,6 +15,7 @@ def run_app():
     database.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
+    jwt.init_app(app)
 
     # register the blueprints
     app.register_blueprint(userRoutes.userBP)

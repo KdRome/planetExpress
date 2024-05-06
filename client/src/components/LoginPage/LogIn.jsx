@@ -19,21 +19,30 @@ function LogIn({ setIsLoggedIn }) {
     console.log("New Account button clicked");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${apiUrl}login`, {
-        email,
-        password
-      });
+  // In LogIn.jsx
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post(`${apiUrl}login`, {
+      email,
+      password
+  });
+    if (response.data.access_token) {
+
+      localStorage.setItem('authToekn', response.data.access_token); // store token in local storage
       console.log("Authentication Successful", response.data);
       setIsLoggedIn(true);
-      navigate("/account");
-    } catch (err) {
-      setError("Authentication failed. Please check your credentials.");
-      console.error(err);
+      navigate("/");  // Updated to /main-page
+    } else {
+      throw new Error("No Token received");
     }
-  };
+
+  } catch (err) {
+    setError("Authentication failed. Please check your credentials.");
+    console.error(err);
+  }
+};
 
   return (
     <div className={styles.container}>
