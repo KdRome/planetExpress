@@ -37,7 +37,7 @@ function App({ navigationItems }) {
                     <a href="/">
                         <img
                             src={planetExpressLogo}
-                            className="w-16 h-16 mr-2"
+                            className="h-16 mr-2"
                             alt="Logo"
                             width={145}
                             height={145}
