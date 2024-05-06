@@ -9,8 +9,8 @@ const UserInfoForm = () => {
     // Add more fields as needed
   });
 
-  const [isEditMode, setIsEditMode] = useState(true);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isSaved, setIsSaved] = useState(true);
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
