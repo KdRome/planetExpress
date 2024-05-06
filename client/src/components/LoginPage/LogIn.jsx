@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './LogIn.css'
-import './SendCode.jsx'
+import styles from './LogIn.module.css';
 
-function LogIn( {setIsAuthenticated} ) {
+function LogIn({ setIsLoggedIn }) {  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  //state hooks
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleForgottenPassword = () => {
-  
     console.log("Forgot password button clicked");
   };
-  
+
   const handleNewAccount = () => {
     console.log("New Account button clicked");
-  }
+  };
 
   // In LogIn.jsx
 const handleSubmit = async (e) => {
@@ -35,7 +32,7 @@ const handleSubmit = async (e) => {
 
       localStorage.setItem('authToekn', response.data.access_token); // store token in local storage
       console.log("Authentication Successful", response.data);
-      
+      setIsLoggedIn(true);
       navigate("/");  // Updated to /main-page
     } else {
       throw new Error("No Token received");
@@ -47,41 +44,40 @@ const handleSubmit = async (e) => {
   }
 };
 
-
   return (
-    <div className="container">
-      <div className="formWrapper">
+    <div className={styles.container}>
+      <div className={styles.formWrapper}>
         <h2>Log In</h2>
         <form onSubmit={handleSubmit}>
-          <div className="formGroup">
-            <label className="label">Email:</label>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Email:</label>
             <input
-              className="input"
+              className={styles.input}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="formGroup">
-            <label>Password:</label>
-              <input
-                className="input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Password:</label>
+            <input
+              className={styles.input}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
-          <button className="button" type="submit">Log In</button>
-          <div className="forgotPassword">
-            <Link to="/SendCode" onClick={handleForgottenPassword}>Forgot Password?</Link>
+          <button className={styles.button} type="submit">Log In</button>
+          <div className={styles.forgotPassword}>
+            <Link to="/sendCode" onClick={handleForgottenPassword}>Forgot Password?</Link>
           </div>
-          <div className="noAccount">
+          <div className={styles.noAccount}>
             <Link to="/signUp" onClick={handleNewAccount}>No Account?</Link>
           </div>
         </form>
-        {error && <p className="errorMessage">{error}</p>}
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
     </div>
   );

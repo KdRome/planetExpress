@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './LogIn.css'
-import './ForgotPassword.jsx'
+import styles from './LogIn.module.css';
 
 function SendCode() {
     const [email, setEmail] = useState('');
@@ -17,43 +16,43 @@ function SendCode() {
         e.preventDefault();
 
         try {
-          const response = await axios.post(`${apiUrl}sendCode`,{
-              email,
-          });
+            const response = await axios.post(`${apiUrl}sendCode`, {
+                email,
+            });
 
             //handle the response
             console.log("Send Code button clicked");
             setNotif("If your email is registered, you will receive a reset code.");
-            navigate("/ForgotPassword");
+            navigate("/forgotPassword");
         } catch (err) {
-            if (err.response && err.response.status == 400){
+            if (err.response && err.response.status === 400) {
                 //alert('Email already exists. Please use a different email.');
                 setNotif("If your email is registered, you will receive a reset code.");
-              }
+            }
             console.error(err);
         }
     }
 
     return (
-        <div className="container">
-            <div className="formWrapper">
+        <div className={styles.container}>
+            <div className={styles.formWrapper}>
                 <h2>Send Code</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="formGroup">
-                        <label className="label">Email:</label>
+                    <div className={styles.formGroup}>
+                        <label className={styles.label}>Email:</label>
                         <input
-                            className="input"
+                            className={styles.input}
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="sendCode">
-                        <Link to="/ForgotPassword" type="submit" onClick={handleSubmit}>Send Code</Link>
+                    <div className={styles.sendCode}>
+                        <Link to="/forgotPassword" type="submit" onClick={handleSubmit}>Send Code</Link>
                     </div>
                 </form>
-                {notif && <p className="notifMessage">{notif}</p>}
+                {notif && <p className={styles.notifMessage}>{notif}</p>}
             </div>
         </div>
     );

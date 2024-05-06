@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import AnnouncementBar from "./components/AnnouncementBar";
 import Header from "./components/Header";
@@ -9,19 +9,23 @@ import ProductGrid from "./components/product-grid/ProductGrid";
 import Footer from "./components/Footer";
 import Cart from "./components/cart/Cart";
 import ProductPage from "./components/product-page/ProductPage";
+import MyAccount from "./components/my_account/MyAccount"; 
+//authentication components
 import Login from "./components/LoginPage/LogIn";
 import SendCode from "./components/LoginPage/SendCode";
 import SignUp from "./components/LoginPage/SignUp";
+import ForgotPassword from "./components/LoginPage/ForgotPassword";
 
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
 import { RiRam2Line, RiCpuLine } from "react-icons/ri";  
-import ForgotPassword from "./components/LoginPage/ForgotPassword";
 
 export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for authentication
+
     const navigationItems = [
         { name: "CPU", icon: RiCpuLine },
         { name: "GPU", icon: BsGpuCard },
@@ -32,14 +36,23 @@ function App() {
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
             <AnnouncementBar title="Free Shipping on Earth" />
-            <Header navigationItems={navigationItems} />
-
+            <Header navigationItems={navigationItems} isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn to Header */}
+            
             <Router>
                 <Routes>
-                    <Route path="/account" element={<Login />} />
+                    {/* Routes for login-related components */}
+                    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
                     <Route path="/sendCode" element={<SendCode />} />
                     <Route path="/signUp" element={<SignUp />} />
-                    <Route path="/ForgotPassword" element={<ForgotPassword />} />
+                    <Route path="/forgotPassword" element={<ForgotPassword />} />
+                    
+                    {/* Protected route for MyAccount */}
+                    {/* If isLoggedIn is true, render MyAccount component, otherwise redirect to login */}
+                    {isLoggedIn ? (
+                        <Route path="/account" element={<MyAccount />} />
+                    ) : (
+                        <Route path="/account" element={<Navigate to="/login" />} />
+                    )}
 
                     <Route path="/cart" element={<Cart />} />
                     <Route
