@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom";
 
 import AnnouncementBar from "./components/AnnouncementBar";
 import Header from "./components/Header";
@@ -15,6 +15,7 @@ import Login from "./components/LoginPage/LogIn";
 import SendCode from "./components/LoginPage/SendCode";
 import SignUp from "./components/LoginPage/SignUp";
 import ForgotPassword from "./components/LoginPage/ForgotPassword";
+import AxiosInterceptor from '/home/rome/repos/planetExpress/client/src/AxiosInterceptor.jsx';
 
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
@@ -40,10 +41,10 @@ function App() {
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
-            <AnnouncementBar title="Free Shipping on Earth" />
-            <Header navigationItems={navigationItems} isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn to Header */}
-            
+                <AnnouncementBar title="Free Shipping on Earth" />
+                <Header navigationItems={navigationItems} isLoggedIn={isLoggedIn} /> {/* Pass isLoggedIn to Header */}
             <Router>
+                <AxiosInterceptor setIsLoggedIn={setIsLoggedIn} />
                 <Routes>
                     {/* Routes for login-related components */}
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
