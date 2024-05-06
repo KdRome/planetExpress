@@ -24,7 +24,10 @@ export const Context = createContext();
 
 function App() {
     const [cartCounter, setCartCounter] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for authentication
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const token = localStorage.getItem('authToken');
+        return !!token;  // Converts to boolean, true if exists, else false
+    });
 
     const navigationItems = [
         { name: "CPU", icon: RiCpuLine },
@@ -32,6 +35,8 @@ function App() {
         { name: "RAM", icon: RiRam2Line },
         { name: "Motherboard", icon: BsMotherboard },
     ];
+
+    console.log("isLoggedIn:", isLoggedIn);
 
     return (
         <Context.Provider value={[cartCounter, setCartCounter]}>
@@ -42,18 +47,11 @@ function App() {
                 <Routes>
                     {/* Routes for login-related components */}
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="/account" element={!isLoggedIn ? <Navigate replace to="/login"/> : <MyAccount />} />
                     <Route path="/sendCode" element={<SendCode />} />
                     <Route path="/signUp" element={<SignUp />} />
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
-                    
-                    {/* Protected route for MyAccount */}
-                    {/* If isLoggedIn is true, render MyAccount component, otherwise redirect to login */}
-                    {isLoggedIn ? (
-                        <Route path="/account" element={<MyAccount />} />
-                    ) : (
-                        <Route path="/account" element={<Navigate to="/login" />} />
-                    )}
-
+                    {/* Routes for product components */}
                     <Route path="/cart" element={<Cart />} />
                     <Route
                         path="/"

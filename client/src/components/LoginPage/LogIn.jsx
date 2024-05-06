@@ -30,10 +30,11 @@ function LogIn({ setIsLoggedIn }) {
       });
       if (response.data.access_token) {
 
-        localStorage.setItem('authToken', response.data.access_token); // store token in local storage
+        localStorage.setItem('authToken', response.data.access_token); // stores token in local storage
         console.log("Authentication Successful", response.data);
+        localStorage.setItem('isLoggedIn', 'true'); // // stores status in local storage
         setIsLoggedIn(true);
-        navigate("/account");
+        navigate("/account", { replace: true });
       } else {
         throw new Error("No Token received");
       }
