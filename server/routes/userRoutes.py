@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Blueprint, jsonify, request
 from models.databaseModels import User_Info, Product, Order
 from server import bcrypt
@@ -66,7 +67,8 @@ def login():
     user = User_Info.query.filter_by(email=data.get("email")).first()
 
     if user and bcrypt.check_password_hash(user.password_hash, data.get("password")):
-        access_token = create_access_token(identity=user.email) # create JWT Token
+        expiration = timedelta(days=1) # sets the expiration to 1 day
+        access_token = create_access_token(identity=user.email, expires_delta=expiration) # create JWT Token
         return jsonify({
             "message": "Login successful",
             "access_token": access_token
@@ -76,8 +78,6 @@ def login():
 
 
 # Secure routes that need token (acc info)
-
-# handle token expiration
 
 # Endpoint to obtain a new access token using the refresh token
 @userBP.route('/api/token/refresh', methods=['POST'])
@@ -92,7 +92,7 @@ def refresh():
 @jwt_required()
 def get_order_history():
     user_email = get_jwt_identity()
-    user = User_Info.query.filter_by(email=user_email).first()
+    user = User_Info.query.filter_by(email=user_email).first() # gets user info from email
     orders = Order.query.filter_by(user_id=user.user_id).all()  # Fetching user-specific orders
     
     # Convert the list of Order objects to a list of dictionaries
