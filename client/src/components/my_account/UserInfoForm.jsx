@@ -1,5 +1,6 @@
 // UserInfoForm.jsx
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const UserInfoForm = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,30 @@ const UserInfoForm = () => {
 
   const [isEditMode, setIsEditMode] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
+
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+  //get user info from db
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}account_info`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          }
+        })
+        setFormData({
+          name: response.data.userInfo.userFirstName + '  ' + response.data.userInfo.userLastName || '',
+          email: response.data.userInfo.userEmail || '',
+        });
+      } catch (error) {
+        console.log("Problem with API connectivity", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

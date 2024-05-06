@@ -107,3 +107,17 @@ def get_order_history():
     ]
 
     return jsonify({"orders": order_dicts})
+
+
+@userBP.route('/api/account_info', methods=["GET"])
+@jwt_required()
+def get_account_info():
+    user_email = get_jwt_identity()
+    user = User_Info.query.filter_by(email=user_email).first()
+    return jsonify({ 
+        
+        "userInfo": {
+                    "userFirstName": user.first_name,
+                    "userLastName": user.last_name,
+                    "userEmail": user_email
+    }})
