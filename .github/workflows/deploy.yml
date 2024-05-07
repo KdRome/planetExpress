@@ -11,18 +11,20 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
 
     - name: Install Dependencies
       run: npm install
+      working-directory: ./client
 
     - name: Build the project
       run: npm run build
+      working-directory: ./client
 
     - name: Deploy to Server
       uses: appleboy/scp-action@master
@@ -31,5 +33,5 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         password: ${{ secrets.SERVER_PASSWORD }}
         port: ${{ secrets.SERVER_PORT }}
-        source: "/home/rome/repos/planetExpress/client/dist/"  # build output
+        source: "./client/dist/"  # build output
         target: "/var/www/planetExpress/"  # Nginx files
