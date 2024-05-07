@@ -24,6 +24,7 @@ function CheckOutButton() {
 
             console.log('Checkout successful', response.data);
             alert("Checkout successful!"); // Feedback to user
+            localStorage.clear('cart');
             // Redirect to confirmation page
             
         } catch (error) {
