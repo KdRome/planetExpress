@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from models.databaseModels import (
     Product, 
     Product2, 
@@ -7,8 +7,6 @@ from models.databaseModels import (
     RAM,
     Motherboard
 )
-from server import bcrypt
-from extensions.extensions import database
 
 productBP = Blueprint('productBP', __name__)
 
