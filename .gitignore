@@ -33,6 +33,7 @@ startServer.sh
 
 #sql commands
 *.pgsql
+sql_commands/
 
 # General
 *.log
