@@ -35,3 +35,13 @@ jobs:
         port: ${{ secrets.SERVER_PORT }}
         source: "./client/dist/"  # build output
         target: "/var/www/planetExpress/"  # Nginx files
+        
+    - name: Restart Nginx
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            sudo systemctl restart nginx
