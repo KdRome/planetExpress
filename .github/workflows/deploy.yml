@@ -20,11 +20,11 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
-      working-directory: ./client
+      working-directory: ./client/
 
     - name: Build the project
       run: npm run build
-      working-directory: ./client
+      working-directory: ./client/
 
     - name: Deploy to Server
       uses: appleboy/scp-action@master
