@@ -15,7 +15,7 @@ import Login from "./components/LoginPage/LogIn";
 import SendCode from "./components/LoginPage/SendCode";
 import SignUp from "./components/LoginPage/SignUp";
 import ForgotPassword from "./components/LoginPage/ForgotPassword";
-import AxiosInterceptor from '/home/rome/repos/planetExpress/client/src/AxiosInterceptor.jsx';
+import AxiosInterceptor from './AxiosInterceptor.jsx';
 
 // NavBar Icons
 import { BsGpuCard, BsMotherboard } from "react-icons/bs";
