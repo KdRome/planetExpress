@@ -77,8 +77,6 @@ def login():
         return jsonify({"message": "Invalid credentials"}), 401
 
 
-# Secure routes that need token (acc info)
-
 # Endpoint to obtain a new access token using the refresh token
 @userBP.route('/api/token/refresh', methods=['POST'])
 @jwt_required(refresh=True)

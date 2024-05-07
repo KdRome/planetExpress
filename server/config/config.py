@@ -1,4 +1,3 @@
-from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
@@ -17,4 +16,4 @@ class Config:
     MAIL_USE_SSL = True
     # JWT token
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-    JWT_ACCESS_TOKEN_EXPRIRES = timedelta(days=3) # Token will expire after 3 days
+    DEBUG = os.getenv("FLASK_DEBUG", "False") == "True"

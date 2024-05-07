@@ -8,6 +8,7 @@ function ForgotPassword({ setIsAuthenticated }) {
     const [password2, setPassword2] = useState('');
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
+    const [notif, setNotif] = useState('');
 
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -26,6 +27,7 @@ function ForgotPassword({ setIsAuthenticated }) {
             });
 
             //handle the response
+            setNotif("Password Updated.");
 
         } catch (err) {
             setError("Password reset failed. Please check your email.");
@@ -79,6 +81,7 @@ function ForgotPassword({ setIsAuthenticated }) {
                         />
                     </div>
                     <button className={styles.button} type="submit" onClick={handleForgotPassword}>Reset Password</button>
+                    {notif && <p className={styles.notifMessage}>{notif}</p>}
                 </form>
                 {error && <p className={styles.errorMessage}>{error}</p>}
             </div>
