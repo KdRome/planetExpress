@@ -23,7 +23,7 @@ def register_blueprints(app):
 
 
 if __name__ == "__main__":
-    register_blueprints(app)
+    register_blueprints(app) # throws circular import err if outside of main
 
     with app.app_context():
         database.create_all()

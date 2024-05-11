@@ -26,6 +26,7 @@ instance/
 virt_env/
 ENV/
 startServer.sh
+server/APIprod.py
 
 # Vite specific
 .vite/
