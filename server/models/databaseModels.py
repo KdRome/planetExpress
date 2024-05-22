@@ -131,3 +131,23 @@ class Order(database.Model):
     created_at = database.Column(database.DateTime, default=datetime.utcnow)
 
     user = database.relationship('User_Info', backref='orders')
+
+
+class PaymentInfo(database.Model):
+    __tablename__ = 'paymentInfo'
+
+    id = database.Column(database.Integer, primary_key=True)
+    card_number = database.Column(database.String(40))
+    expiration_data = database.Column(database.String(10))
+    cvv = database.Column(database.String(10))
+
+
+class AddressInfo(database.Model):
+    __tablename__ = 'addressInfo'
+
+    id = database.Column(database.Integer, primary_key=True)
+    address_line1 = database.Column(database.String(40))
+    address_line2 = database.Column(database.String(40))
+    city = database.Column(database.String(40))
+    state = database.Column(database.String(40))
+    zipcode = database.Column(database.String(10))
